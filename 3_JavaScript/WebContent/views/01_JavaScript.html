@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>01. JavaScript</title>
+<script src="../sample.js"></script> <!-- external시 -->
+<style>
+	.area{width: 300px; height: 100px; border: 1px solid black; overflow: scroll;} /* 아이디로 접근 */
+</style>
+</head>
+<body>
+	<h1>자바스크립트 개요</h1>
+	<hr>
+	<hr>
+	<h2>스크립트 언어</h2>
+	<p>
+		기본 프로그램의 동작을 사용자의 요구에 맞게 수행되도록 해주는 용도로 사용<br>
+		매우 빠르게 배우고 짧은 소스코드 파일로 상호작용 하도록 고안되었음
+	</p>
+	
+	<hr>
+	
+	<h2>자바스크립트</h2>
+	<p>웹 브라우저에서 많이 사용하는 인터프리터 방식의 객체지향 프로그래밍 언어</p>
+	
+	<hr>
+	
+	<h2>자바스크립트 사용법</h2>
+	<p>
+		1. 태그에 직접 간단한 소스코드를 작성해서 실행하는 방법<br>
+		2. script태그에 작성하여 실행하는 방법<br>
+		3. 별도의 js파일로 작성해서 가져다 사용하는 방법
+	</p>
+	
+	<h3>태그에 직접 자바스크립트 코드를 작성하여 실행</h3>
+	<!-- 인라인 방식 -->
+	<button onclick='alert("태그에 직접 자바스크립트 코드 작성");'>클릭하세요!</button> <!-- onclick: 클릭했을 때 --> 
+	<!-- ' " " ' 로 구분 확실히 가도록 -> ' ' ' ' 이면 어떻게 나눠야할지 인식 X -->
+	
+	<!--  -->
+	<h3>script태그 안에 함수 단위로 소스 작성하여 실행</h3>
+	<button onclick="internal();">클릭하세요!</button>
+	<!-- <button onclick="internal();"> 
+		Uncaught ReferenceError: internal is not defined at HTMLButtonElement.onclick (01_JavaScript.html:38) 
+		internal()이 없어서 생기는 오류(웹에서 F12 + 빨간색 x버튼 누르면 보임  ==> 함수를 만들어줘야 함-->
+	<script>
+		function internal(){ /* 자바스크립트는 함수쓸때 function만 쓰면 됨 */
+			alert('script태그 안에 있는 internal()함수 실행')
+		}
+	</script>
+	
+	<h3>별도의 js파일로 작성해 실행</h3>
+	<button onclick="external();">클릭하세요!</button>
+	
+	<hr>
+	
+	<h2>자바스크립트의 데이터 입출력</h2>
+	<h3>데이터 출력</h3>
+	<h4>document.write()로 출력</h4><!-- view에다가 그냥 출력해주는 함수 -->
+	<script>
+		document.write('document.write()로 출력한 결과');
+	</script>
+	
+	<h4>window.alert()로 알림창 출력</h4>
+	<script>
+		alert('출력문구를 실행합니다.'); /* 웹을 열자마자 실행됨 */
+		window.alert('window가 없어도 실행은 됨')
+	</script>
+	
+	<h4>innerHTML로 요소 내용 변경</h4>
+	<div id="div1">
+		자바스크립트에서 태그 엘리먼트의 값을 읽거나 값을 변경할 때 innerHTML속성 사용
+	</div>
+	<button onclick="checkInnerHTML();">innerHTML</button>
+	<script>
+		// 함수 생성 후 divElement라는 변수에 div1에 대한 요소 저장 및 출력
+		function checkInnerHTML(){
+			var divElement = document.getElementById('div1'); /* 요소에 접근하는 법: getElementById() */
+			console.log(divElement);
+			console.log(divElement.innerHTML);
+			divElement.innerHTML = "innerHTML 속성으로 값 변경";
+		}
+	</script>
+	
+	<h4>console.log()로 개발자도구 콘솔화면에 출력</h4>
+	<p>개발자도구 콘솔 화면에 출력하고자 할 때, 디버깅 할 때 주로 사용 </p>
+	<button onclick="checkConsole();">console.log()</button>
+	<script>
+		function checkConsole(){
+			console.log('콘솔 화면에 출력합니다.'); /* 웹 F12 콘솔에 출력됨 */
+			window.console.log('window를 붙여도 됨'); /* 같이 나옴 */ /* console.log = window.console.log 인가봐 */
+		}
+	</script>
+
+	<h3>데이터 입력</h3>
+	<h4>window.confirm()으로 입력</h4>
+	<p>
+		어떤 질문에 대해 예/아니오의 결과를 얻을 때 사용<br>
+		확인 버튼과 취소 버튼이 나타나며 확인 버튼 클릭 시 true, 취소 버튼 클릭 시 false 리턴
+	</p>
+	<button onclick="checkConfirm();">window.confirm()</button>
+	<script>
+		function checkConfirm(){
+			var result = confirm('확인과 취소를 누를 수 있습니다.'); /* boolean값 반환 */
+			console.log(result);
+			
+			if(result) {
+				alert('확인을 누르셨군요');
+			} else {
+				alert('취소를 누르셨군요');
+			}
+		}
+	</script>
+	
+	<h4>window.prompt()로 입력</h4>
+	<p>
+		텍스트 필드와 확인, 취소 버튼이 있음<br>
+		출력하고 입력한 값을 리턴 값으로 돌려받음
+	</p>
+	<button onclick="checkPrompt();">window.prompt()</button>
+	<script>
+		function checkPrompt(){
+			var result = prompt('당신의 이름을 입력해주세요');	 /* 알림창이 뜨면서 값을 입력하는 창과 확인/취소 버튼이 뜸 */		
+			console.log(result); /* 이게 있어야 입력한 값이 넘어감, 이게 없으면 값을 입력해도 그냥 입력하고 끝임 */
+			if(result != null && result.trim() != '') { /* 문자열 앞 뒤 공백 제거 */
+				alert(result + '님 반갑습니다');
+			}
+		}
+	</script>
+
+	<hr>
+	
+	<h2>HTML태그에 접근하기</h2>
+	<h3>아이디로 접근</h3><!-- style 만들어주기 -->
+	<div id="area1" class="area"></div>
+	<button onclick="accessId();">아이디로 접근</button>
+	<script>
+		function accessId(){
+			var area = document.getElementById('area1'); /* element : 하나만 */
+			/* document 안에 있는 요소를 가져올 건데 'area1'이라는 아이디를 가지고 있는 요소를 가지고올거야 */
+			/* 함수를 받든 문자열을 받든 자료형 상관없이 var에 담음 */
+			console.log(area); 
+			area.style.backgroundColor = "beige"; /* 아이디로접근 버튼을 누르면 배경색이 beige로 변함 / backgroundColor 낙타봉표기법으로 써야 에러가 안 남 */
+			// 아이디로 접근 성공
+//			area.innerHTML = '아이디로 접근 성공'; /* 버튼을 누르면 이 문구가 뜸 */
+//			area.innerHTML += '아이디로 접근 성공<br>'; /* 누를 때마다 이 문구가 뜸 */ /* innerHTML은 <br>을 태그로 인지 -> 줄바꿈 가능 */
+			area.innerText += "아이디로 접근 성공!<br>"; /* innerText는 <br>을 그냥 text로 인지 -> 줄바꿈 불가*/
+
+		}
+	</script>
+	
+	<h3>태그 명으로 접근</h3>
+	<ul>
+		<li>목록1</li>
+		<li>목록2</li>
+		<li>목록3</li>
+		<li>목록4</li>
+		<li>목록5</li>
+	</ul>
+	<button onclick="accessTagName();">태그 명으로 접근</button>
+	<script>
+		function accessTagName(){
+			var list = document.getElementsByTagName('li'); /* elements : 여러 개 */
+			console.log(list); /* console에 list를 뽑겠다 */ /* console.log() = System.out.println(); */
+			
+			var changeColor = 50;
+			
+			for(var i = 0; i < list.length; i++) {
+				console.log(list[i]);
+				list[i].style.backgroundColor
+					= "rgb(130, 220, " + changeColor + ")";
+				changeColor += 50;
+			}
+		}
+	</script>
+	
+	
+	<h3>name으로 접근</h3>
+	<form>
+		<fieldset>
+			<legend>취미</legend>
+			<table>
+				<tr>
+					<td><input type="checkbox" name="hobby" value="game" id="game"><label>게임</label></td>
+					<td><input type="checkbox" name="hobby" value="music" id="music"><label>음악감상</label></td>
+					<td><input type="checkbox" name="hobby" value="movie" id="movie"><label>영화보기</label></td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" name="hobby" value="book" id="game"><label>독서</label></td>
+					<td><input type="checkbox" name="hobby" value="travel" id="travel"><label>여행</label></td>
+					<td><input type="checkbox" name="hobby" value="exercise" id="exercise"><label>운동</label></td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+	<br>
+	<div id="area2" class="area"></div> 
+	<button onclick="accessName();">name으로 접근</button>
+	<script>
+		function accessName() {
+			var hobby = document.getElementsByName('hobby');
+			console.log(hobby);
+			
+			var checkItem = "";
+			
+			for(var i = 0; i < hobby.length; i++) {
+//				console.log(hobby[i]);
+				if(hobby[i].checked == true){ /* hobby[i]가 선택되면 */
+					checkItem += hobby[i].value + " 선택함<br>"; /* 선택된 거에 @@선택함 이렇게 뜨도록 */
+				}
+			}
+			
+			document.getElementById('area2').innerHTML = checkItem; /* 네모박스 안에 값이 입력되도록 */
+		}
+	</script>
+	
+	<h3>text박스의 value값 읽어오기</h3>
+	<form>
+		<label>이름 : </label><input type="text" name="userName" id="userName">
+		<input type="button" onclick="readValue();" value="input값 확인">
+	</form>
+	<br>
+	<div id="area3" class='area'></div> <!-- div : 박스 생김 -->
+	<script>
+		// 함수 생성 후 텍스트 필드에 입력한 이름을 div에 출력
+		// 이름을 입력하지 않은 상태로 버튼을 누르면 '이름을 입력하세요'알림창 출력
+		function readValue() {
+			var input = document.getElementById('userName'); /* id가 ''인 곳을 input이라고 하겠다 */
+			var value = input.value; /* input(text창)에 사람들이 값을 입력한 걸 value로 받겠다 */
+		
+			if(value == '') {
+				alert('이름을 입력하세요');
+				input.focus();
+			} else {
+				document.getElementById('area3').innerHTML = value; /* id가 area3인 곳(div)에 innerHTML을 위에서 받아온 value로 하겠다 -> div에 value출력 */
+				input.value = ''; /* 다시 value를 ''로 만들어줌 */
+			}
+		}
+
+	</script>
+
+</body>
+</html>
