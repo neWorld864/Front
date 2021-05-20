@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>폼 관련 태그</title>
+</head>
+<body>
+	<h1>폼 관련 태그</h1>
+	<p>
+		form태그는  html에서 사용자가 입력할 수 있는 양식을 제공하는 태그<br>
+		form태그 내의 input태그들을 통해 사용자가 입력한 정보를 서버로 넘기는 역할을 함
+		- action 속성 : 폼에 입력된 값들을 전송받을 서버 클래스 명 입력
+		- method 속성 : get/post방식으로 전송 방식 지정
+	</p><!-- ~210310, 210311~ -->
+	<form action="07_하이퍼링크관련.html" method="post"> <!-- get방식은 기본값이기 때문에 입력해주지 않아도 됨-->
+	<!-- name="search"를 통해서 search변수에 값을 담아 보내려고 하는데 값을 어디로 보낼지 모르니까 action=""을 통해 어디로 값을 보낼지 지정해줌 -->
+		<label>검색할 내용 : </label><!-- 인라인요소 --><!-- label없는거랑 당장 차이는 없지만 감싸주는 것이 좋음 -->
+		<input type="text" size="20" name="search" placeholder="검색어를 입력해주세요"> <!-- 인라인요소 -->
+		<!-- search라고 하는 변수명을 만들어줌 날씨를 입력하면 search에 날씨가 담기게 됨. 여기서 어디로 값이 넘어갈지 지정해주면 거기로 넘어감 -->
+		<!-- file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html? -->
+		<!-- file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?search=날씨 -->
+		<input type="submit" value="검색"> <!-- submit의 기본 텍스트는"제출", value="??"하면 그걸로 바뀜 -->
+	</form>
+	<p>submit버튼을 눌렀을 때 method에 지정한 방식으로 action에 지정한 경로에 input태그 값 전달</p>
+	
+	<hr>
+	
+	<form>
+		<fieldset>
+			<legend>필드셋의 제목을 작성하는 부분</legend>
+			<label>필수 입력 1 : </label><input type="text"><br>
+			<label>필수 입력 2 : </label><input type="text"><br>
+			<label>필수 입력 3 : </label><input type="text"><br>
+		</fieldset>
+		<br>
+		<fieldset>
+			<legend>필드셋으로 묶은 영역 별로 구분</legend>
+			<label>선택 입력 1 : </label><input type="text"><br>
+			<label>선택 입력 2 : </label><input type="text"><br>
+			<label>선택 입력 3 : </label><input type="text"><br>
+		</fieldset>
+	</form>
+	
+	<br>
+	
+	<h2>text와 관련된 속성들</h2>
+	<form>
+		<h3>type="hidden"</h3>
+		<p>- 사용자 눈에는 보이지 않지만 값을 담고 보내고 할 수 있음</p>
+		<input type="hidden" value="value"><!-- 값을 담고 싶으면 value이용 -->
+		
+		<h3>type="text"</h3>
+		<p>-한 줄짜리 텍스트를 입력할 수 있는 텍스트 상자</p>
+		<label>아이디 : </label>
+		<input type="text" name="userId" placeholder="아이디를 입력하세요." maxlength="15" value="kh" autofocus readonly>
+		<!-- 	텍스트 상자 생김	값을 담을 변수명		값 미입력시 텍스트 상자에 떠있는 문구		최대 입력가능 길이	   기본값 입력  자동으로 커서가 깜빡	읽기전용 -->
+		
+		<h3>type="password"</h3>
+		<p>- 비밀번호를 입력할 수 있는 텍스트 상자</p>
+		<label>비밀번호 : </label>
+		<input type="password" name='userPwd' size="20" placeholder="비밀번호를 입력하세요." maxlength="15"><!-- ""말고 ''도 가능 -->
+		<!-- password -> 처음에 value값이 없음
+			 1234를 입력 후 전송을 누름 -> value="1234"가 userPwd에 담겨서 전송됨 ==> userPwd="1234" -->
+		
+		<!-- 처음 값 : file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?userId=kh&userPwd= -->
+		<!-- 1234입력 후 전송 : file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?userId=kh&userPwd=1234 -->
+		
+		<h3>type="button", type="submit", type="reset"</h3>
+		<input type="button" value="버튼">
+		<input type="submit" value="전송">
+		<!-- file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?userId=kh&userPwd=dPdpdpdpdnddn -->
+		<!-- 전송을 누르면  'userId=kh&userPwd= ' 이렇게 값이 넘어감-->
+		<input type="reset" value="취소">
+		
+		<p>button태그를 이용해서 버튼을 만들 수 있음</p>
+		<button>button</button>
+		<!-- file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?userId=kh&userPwd=dPdpdpdpdnddn -->
+		<!-- 짱중요 !!!! : button이라고 하는 일반 태그가 form 태그 안에 있으면 기본적으로 submit의 역할을 함 -->
+		<button type="submit">submit</button>
+		<button type="reset">reset</button>
+	</form>
+	
+	<hr>
+	
+	<h2>라디오 버튼과 체크박스</h2>
+	<form>
+		<h3>type="radio"</h3>
+		<label>성별 : </label>
+		<input type="radio" name="gender" value="M" checked><label>남자</label><!-- 웬만하면 글자 그냥 넣지 말고 label에 넣기 -->
+		<!-- 전송을 누르면 file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?gender=M -->
+		<input type="radio" name="gender" value="F"><label>여자</label>
+		<!-- 전송을 누르면 file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?gender=F -->
+		
+		<!-- value값을 지정하지 않으면 남자인지 여자인지 구분이 불가하다 -->
+		
+		<!-- value 속성 : 입력 값이 value속성에 담겨 데이터를 전송할 때 쓰임 -->
+		<!-- value : 데이터 전송 시 서버에 보낼 값을 지정하는 곳 -->
+		
+		<h3>type="checkbox"</h3>
+		<label>취미 : </label>
+		<input type="checkbox" name="hobby" value="baseball" checked><label>야구</label>
+		<input type="checkbox" name="hobby" value="basketball"><label>농구</label>
+		<input type="checkbox" name="hobby" value="football"><label>축구</label>
+		<!-- name이랑 value가 없으면 값이 전송되지 않음 -->
+		<!-- name:뒤에 데이터가 붙지도 않음 / value:on으로만 표기됨 -->
+		
+		<!-- checked : 기본적으로 체크가 돼서 나옴 -->
+		
+		<br><br>
+		<input type="submit" value="전송">
+		<input type="reset" value="취소">
+	</form>
+	
+	<hr>
+	
+	<h2>file과 image</h2>
+	<form>
+		<h3>type="file"</h3>
+		<label>파일 선택 : </label>
+		<input type="file" name="uploadFile" multiple accept=".jpg, .mp4">
+		<!-- multiple이 있으면 파일 여러 개 선택 가능, 없으면 하나만 선택 가능 -->
+		<!-- accept : 허용한 파일 형식만 넣을 수 있도록 -->
+		
+		<h3>type="image"</h3>
+		<input type="image" src="sample/image/flower1.PNG">
+		
+		<input type="submit" value="전송">
+	</form>
+	
+	<hr>
+	
+	<h2>HTML5 태그</h2>
+	<form>
+		<h3>type="search", type="url", type="email", type="tel"</h3>
+		<label>검색 : </label>
+		<input type="search" name="searchText" placeholder="검색할 내용 입력">
+		
+		<br>
+		
+		<label>홈페이지 : </label>
+		<input type="url" name="homepage"><!-- http://를 꼭 붙여야 함 -->
+		
+		<br>
+		
+		<label>이메일 : </label>
+		<input type="email" name="email" placeholder="이메일을 입력하세요">
+		
+		<br>
+		
+		<label>전화번호 : </label>
+		<input type='tel' name="phone" placeholder="전화번호를 입력하세요">
+		
+		<br><br>
+		
+		<input type="submit" value="전송">
+		
+		<!-- file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?searchText=알라딘&homepage=https://www.aladin.co.kr&email=aladin@aladin.com&phone=010-0101-1010 -->
+	</form>
+	
+	<!-- 홈페이지는 url형식(https:// ~)이 아니면 입력 불가, 이메일은 이메일형식(@)이 아니면 입력 불가 -->
+	
+	<hr>
+	
+	<h2>숫자와 관련된 input태그 속성들</h2>
+	<form>
+		<h3>type="number"</h3>
+		<label>수량 : </label>
+		<input type="number" name="amount" min="0" max="100" step="10">
+		
+		<h3>type="range"</h3>
+		<label>점수 : </label><input type="range" name="point" min="-100" max="1000" step="100">
+		
+		<br>
+		<input type="submit" value="전송">
+	</form>
+	
+	<hr>
+	
+	<h2>날짜/시간과 관련된 input태그 속성들</h2>
+	<form>
+		<h3>type="date", type="month", type="week", type="time", type="datetime", type="datetime-local"</h3>
+		<label>date : </label><input type="date" name="date"><br>
+		<label>month : </label><input type="month" name="month"><br>
+		<label>week : </label><input type="week" name="week"><br>
+		<label>time : </label><input type="time" name="time"><br>
+		<label>datetime : </label><input type="datetime" name="datetime"><br><!-- 직접 날짜를 입력 -->
+		<label>datetime-local : </label><input type="datetime-local" name="datetime-local"><br>
+		<br>
+		<input type="submit" value="전송">
+	</form>
+	<!-- file:///C:/4_Front_workspace/1_HTML/WebContent/08_폼관련.html?date=2021-06-11&month=2021-06&week=2021-W11&time=15%3A26&datetime=2021-10-21&datetime-local=2021-03-11T16%3A21 -->
+	
+	<hr>
+	
+	<h2>색깔과 관련된 input태그</h2>
+	<form>
+		<h3>type="color"</h3>
+		<label>색상 선택 : </label>
+		<input type="color" name="color">
+		<input type="submit" value="전송">
+	</form>
+	
+	<hr>
+	
+	<h2>select태그와 option태그</h2>
+	<form>
+		<h3>기본 select태그와 option태그</h3>
+		<label>국적 : </label>
+		<select name="nation1" multiple size="2">
+			<option value="ko">한국</option>
+			<option value="ch">중국</option>
+			<option value="us" selected>미국</option>
+			<option value="th">태국</option>
+		</select>
+		<input type="submit" value="전송">
+	</form>
+	
+	<hr>
+	
+	<h2>textarea태그</h2>
+	<form>
+		<textarea rows="5" cols="30" name="textarea" style="resize:none;" placeholder="값 입력">박신우</textarea>
+		<!-- 기본값으로 '박신우' --><!-- style="resize:none;" : 사이즈 변경 불가 -->
+		<input type="submit" value="전송">
+	</form>
+	
+</body>
+</html>
