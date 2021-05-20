@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	.wrap *{border: 1px solid lightgray; display: block; padding: 5px; margin: 15px;}
+	.type{width: 400px;}
+</style>
+</head>
+<body>
+	<h1>객체 탐색</h1>
+	<h2>순회(탐색)메소드</h2>
+	<h3>Descendants메소드</h3>
+	<p>선택된 요소의 하위 요소들을 선택할 수 있는 메소드</p>
+	<div class="wrap">
+		<div class="type">div (great-grandparent)
+			<ul>ul (grandparent)
+				<li>li (direct parent)
+					<span>span1</span>
+				</li>
+				<li>li (direct parent)
+					<span>span2</span>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="type">div (grandparent)
+			<p>p (direct parent)
+				<span>span</span>
+			</p>
+		</div>
+	</div>
+	
+	<script>
+		$(function(){
+			var style1 = {'color': 'red', 'border': '2px solid red'};
+			var style2 = {'color': 'orange', 'border': '2px solid orange'};
+			var style3 = {'color': 'blue', 'border': '2px solid blue'};
+			var style4 = {'color': 'green', 'border': '2px solid green'};
+			var style5 = {'color': 'pink', 'border': '2px solid pink'};
+			
+			
+			console.log($('.wrap').children()); // S.fn.init(2) [div.type, div.type, prevObject: S.fn.init(1)]
+			$('.wrap').children().css(style1); // 첫div의 바로 아래 자식들(두 번째 div, ul, li, span1 등의 글씨 바뀜)
+			
+			console.log($('.wrap').children().children()); // S.fn.init(2) [ul, p, prevObject: S.fn.init(2)]
+			$('.wrap').children().children().css(style2); // ul, p부터 그 자식들
+			
+			$('.wrap').children().children('ul').css(style3); // ul에만 적용하고 싶을 때
+			
+			console.log($('.wrap').find('span')); // S.fn.init(3) [span, span, span, prevObject: S.fn.init(1)]
+			$('.wrap').find('span').css(style4); // 후손 중에서 span이라는 곳에 적용
+			
+			// span1과 span2만 분홍색으로 바꾸기
+			// $('.wrap').find('li').find('span').css(style5); 내가 한 버전
+			// $('li').children().css(style5); // 방법1
+			$('.wrap').children().children().children('li').children().css(style5); // 방법2
+
+		});
+	</script>
+
+</body>
+</html>

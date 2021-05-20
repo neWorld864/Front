@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>버튼 카운터</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+	.data-test{
+        width:100px; height:100px;
+        margin-right:10px;
+        display:inline-block;
+        font-size:30px;
+        background: rgb(200, 200, 0);
+    }
+</style>
+</head>
+<body>
+	<h1>버튼 카운트</h1>
+	<button id="btn1" class="data-test"> 0 </button>
+    <button id="btn2" class="data-test"> 0 </button>
+    <button id="btn3" class="data-test"> 0 </button>
+    
+    <script>
+        // jQuery(function(){
+        //     $(".data-test").each(function(){
+        //     	$(this).on("click",{count:0},function(event){
+        //     		var cnt = ++event.data.count;
+        //             //10번클릭시 이벤트핸들러 제거
+        //     		if(cnt==10) $(this).off('click');
+        //     		//해당버튼의 alpha값을 1-->0으로 단계적으로 감함.
+        //             $(this).text(cnt).css('background','rgba(200,200,0,'+(1-cnt/10)+')');
+        //     	});
+        //     });
+        // });
+        
+        $('.data-test').on('click', function(){
+            // console.log(this.innerText);
+            // console.log($(this).text());
+            // 위 아래 같은 말
+            var count = Number($(this).text());
+            count++;
+            $(this).text(count).css('background','rgba(200,200,0,'+(1-count/10)+')');
+            if(count == 10){
+                $(this).off('click');
+            }
+        });
+    </script>
+    
+</body>
+</html>

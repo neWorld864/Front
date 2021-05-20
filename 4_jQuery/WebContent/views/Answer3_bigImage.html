@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>이미지 확대</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+	td.small {
+		text-align:center;
+		cursor:pointer;
+		width:150px;
+	}
+	td.small a img {
+		border:none;
+		margin:10px;
+		width:60px;
+		height:60px;
+	}
+	td.small p{font-weight:bold;}
+	.large {width:500px; text-align:center;}
+	.hover {background-color:powderblue;}
+</style>
+
+</head>
+<body>
+	<h1>이미지 확대</h1>
+	<table>
+		<tr>
+			<td class="small">
+				<a href="../images/samsung1.png"><img src="../images/samsung1.png"/></a>
+				<p>삼성 21x<br>&#8361;500
+			</td>
+			<!-- 
+				클래스 이름이 large인 <img>엘리먼트의 이미지는 마우스가 올라간 아이콘의 확대된 이미지를 
+				나타내주는 곳이다.
+			-->
+			<td rowspan='4'>
+				<img src="../images/samsung1.png" class="large" />
+			</td>
+		</tr>
+		<tr>
+			<td class="small">
+				<a href="../images/samsung2.png"><img src="../images/samsung2.png"/></a>
+				<p>삼성 NX mini <br> &#8361;350
+			</td>
+		</tr>
+		<tr>
+			<td  class="small">
+				<a href="../images/canon1.png"><img src="../images/canon1.png"/></a>
+				<p>캐논 SX510HS <br> &#8361;400
+			</td>
+		</tr>
+		<tr>
+			<td class="small">
+				<a href="../images/nikon1.png"><img src="../images/nikon1.png"/></a>
+				<p>니콘 FusHD <br> &#8361;200
+			</td>
+		</tr>
+	</table>
+	 <script type="text/javascript">
+	 	$(document).ready(function(){
+	
+			//td.small 마우스오버시
+			$(".small").hover(
+				//mouserenter 이벤트핸들러
+				function(){
+					$(this).addClass('hover');
+	
+					var img_src = $(this).find("a").attr('href');//이미지경로를 a태그 href에서 읽어온다.
+	
+					// 클래스 이름이 large인 것(화면에 크게 보여주는 이미지)을 빠르게 화면에서 사라지게 하고
+					// 클래스 이름이 large인 것을 화면에서 사라지게 한 다음에 
+					// 실행되어야 하는 콜백함수는 클래스 이름이 large인 것의 
+					// src 속성값을 위에서 변수 img_src 저장해둔 값으로 대체한다.
+					// $(".large").fadeTo('fast',0, function() {	
+					// 						$(".large").attr('src',img_src);
+					// 					})
+					// 			.fadeTo('fast',1);
+					// 클래스 이름이 large인 것(화면에 크게 보여주는 이미지)을 빠르게 자기의 색깔대로
+					// 화면에 나타나도록 한다.
+
+					$('.large').fadeOut(function(){
+						$('.large').attr('src', img_src);
+					});
+					
+					$('.large').fadeIn();
+				},
+				//mouserleave 이벤트핸들러
+				function(){
+					$(this).removeClass('hover');
+				});
+		 });
+	</script>
+	
+</body>
+</html>

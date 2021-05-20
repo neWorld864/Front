@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	.test{
+		height: 50px; width: 150px; border: 1px solid black;
+		text-align: center; display: table-cell; vertical-align: middle; 
+	}
+	
+	.outer{width: 100px; height: 50px; background: powderblue; padding: 30px;}
+	.inner{width: 100%; height: 100%; background: white;}
+	.reverse{background: black; color: white;}
+</style>
+</head>
+<body>
+	<h1>이벤트</h1>
+	
+	<h2>이벤트 관련 속성</h2>
+	<p>이벤트 핸들러의 매개인자로 event객체 전달<br>인라인에서 다른 키워드는 불가</p>
+	<button onclick="test1(event)">실행확인</button>
+	<script>
+		function test1(e) {
+			console.log(e); // PointerEvent {isTrusted: true, pointerId: 1, width: 1, height: 1, pressure: 0, …}
+			console.log(e.target); // <button onclick="test1(event)">실행확인</button> : 이벤트가 들어간 위치가 나옴
+		}
+	</script>
+	
+	<h2>이벤트 연결 종류</h2>
+	<h3>on()와 off()</h3>
+	<p>
+		on() : 현재 존재하는 문서 객체에만 이벤트 연결<br>
+		off() : on()로 연결된 이벤트 제거
+	</p>
+	<div id="onOff" class="test">기본상태</div>
+	<script>
+		$(function(){
+			$('#onOff').on('click', function(){
+				console.log(event); // PointerEvent {isTrusted: true, pointerId: 1, width: 1, height: 1, pressure: 0, …}
+				console.log(event.target); // <div id="onOff" class="test">기본상태</div>
+				
+				console.log($(this).text()); // 기본상태
+			});
+			
+			// on(): 여러 개의 이벤트를 객체로 등록할 수 있음
+			// 마우스가 올라갔을 때 배경 베이지, 텍스트 '마우스 올라감'
+			// 마우스가 내려갔을 때 배경 파우더블루, 텍스트 '마우스 내려감'
+			// 클릭 했을 때 마우스 올라간 이벤트, 마우스 내려간 이벤트 삭제, 배경 하얀색, 텍스트 '기본값'
+			
+			$('#onOff').on({
+				'mouseenter':function(){$(this).css('background', 'beige').text('마우스 올라감');},
+				'mouseleave':function(){$(this).css('background', 'powderblue').text('마우스 내려감');},
+				'click':function(){$(this).off('mouseenter').off('mouseleave').css('background', 'white').text('기본값');}
+			}) // 객체로 들어가려면 {}로 들어가야 함
+		});
+	</script>
+	
+	<h3>one()</h3>
+	<p>이벤트를 한 번만 연결할 때 사용</p>
+	<div id="eventOne" class="test">기본 상태</div>
+	<script>
+		$(function(){
+			$('#eventOne').one('click', function(){
+				alert('이번이 처음이자 마지막 이벤트입니다!');
+			}).css('cursor', 'pointer');
+		});
+	</script>
+	
+	<h2>이벤트 종류</h2>
+	<h2>마우스 이벤트</h2>
+	<h4>mouseover/mouseout(), mouseenter/mouseleave()</h4>
+	<div class="outer" id="mouseEvent1">
+		<div class="inner"></div>
+	</div>
+	<br>
+	<div class="outer" id="mouseEvent2">
+		<div class="inner"></div>
+	</div>
+	<script>
+		$(function(){
+			$('#mouseEvent1').mouseover(function(){
+				console.log($(this).attr('id') + ' over !');
+			}).mouseout(function(){
+				console.log($(this).attr('id') + ' out !');
+			}); // 자식 요소에 들어가면 또 로그에 뜸 (over out over out over out)
+			
+			$('#mouseEvent2').mouseenter(function(){
+				console.log($(this).attr('id') + ' enter !');
+			}).mouseleave(function(){
+				console.log($(this).attr('id') + ' leave !');
+			}); // 자식 요소에는 영향 미치지 않음 (enter leave)
+		});
+	</script>
+	
+	<br>
+	
+	<h4>hover()</h4>
+	<p>mouseenter()와 mouseleave()를 동시에 사용하는 효과</p>
+	<div id="event" class="test">기본상태</div>
+	<script>
+		$(function(){
+			// 마우스가 올라갔을 때 배경 검은색, 글자 하얀색
+			// 마우스가 내려갔을 때 배경 하얀색, 글자 검은색
+			
+			// 방법1
+			/* $('#event').mouseenter(function(){
+				$(this).css({'background': 'black', 'color': 'white'});
+			});
+			$('#event').mouseleave(function(){
+				$(this).css({'background': 'white', 'color': 'black'});
+			}); */
+				
+			// 방법2
+			/* $('#event').mouseenter(function(){
+				$(this).css({'background': 'black', 'color': 'white'});
+			}).mouseleave(function(){
+				$(this).css({'background': 'white', 'color': 'black'});
+			}); */
+			
+			// 방법3
+			/* $('#event').on({
+				'mouseenter':function(){
+					$(this).css({'background': 'black', 'color': 'white'});
+				},
+				'mouseleave':function(){
+					$(this).css({'background': 'white', 'color': 'black'});
+				}
+			}); */
+				
+			// 방법4
+			/* $('#event').on({
+				'mouseenter':function(){
+					$(this).addClass('reverse');
+				},
+				'mouseleave':function(){
+					$(this).removeClass('reverse');
+				}
+			}); */
+			
+			// 방법5
+			$('#event').hover(function(){
+				$(this).addClass('reverse');
+			}, function(){
+				$(this).removeClass('reverse');
+			});
+		});
+	</script>
+	
+	<h3>키보드 이벤트</h3>
+	<h4>keydown(), keypress(), keyup()</h4>
+	<textarea cols="40" rows="5" id="keyEvent"></textarea>
+	<script>
+		$(function(){
+			$('#keyEvent').keydown(function(e){
+				console.log('keydown : ' + e.key);
+			}).keypress(function(e){
+				console.log('keypress : ' + e.key);
+			}).keyup(function(e){
+				console.log('keyup : ' + e.key);
+			});
+		});
+	</script>
+	
+	<h4>동적으로 글자 수 세기</h4>
+	<span id="counter">0</span>/150<br>
+	<textarea cols="70" rows="5" id="textTest"></textarea>
+	<script>
+		$(function(){
+			$('#textTest').keyup(function(){
+				var input = $(this).val();
+				var inputLength = $(this).val().length; // val(): input이나 textarea의 값을 받아올 수 있음 cf. text(): 값을 받아오지 못 함
+				console.log(inputLength);
+				
+				$('#counter').html('<b>' + inputLength + "</b>"); // id가 counter인 곳에 inputLength를 넣음
+				
+				if(inputLength <= 150){
+					$('#counter').css('color', 'black');
+				} else {
+					$('#counter').css('color', 'red');
+					
+					var pieceStr = input.substr(0, 150); // 0자부터 150자까지 잘라서 변수에 저장
+					$(this).val(pieceStr); // 저장한 값을 나(textTest)한테 저장
+					
+				}
+			});
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	.wrap *{border: 1px solid lightgray; display: block; padding: 5px; margin: 15px;}
+	.type{width: 400px;}
+</style>
+</head>
+<body>
+	<h1>객체 탐색</h1>
+	<h2>순회(탐색)메소드</h2>
+	<h3>Ancestors메소드</h3>
+	<p>선택된 요소의 상위 요소들을 선택할 수 있는 메소드</p>
+	<div class="wrap">
+		<div class="type">div (great-grandparent)
+			<ul>ul (grandparent)
+				<li>li (direct parent)
+					<span>span</span>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="type">div (grandparent)
+			<p>p (direct parent)
+				<span>span</span>
+			</p>
+		</div>
+	</div>
+	
+	<script>
+		$(function(){
+			console.log($('span').parent()); // S.fn.init(2) [li, p, prevObject: S.fn.init(2)]
+			$('span').parent().css({'border': '2px solid red', 'color': 'red'});
+			
+			console.log($('span').parents()); // S.fn.init(8) [p, div.type, li, ul, div.type, div.wrap, body, html, prevObject: S.fn.init(2)] : span에 대한 모든 부모를 가지고 있음
+			
+//			$('span').parents().css({'color': 'blue', 'border': '2px solid blue'});
+			$('span').parents('ul').css({'color': 'blue', 'border': '2px solid blue'}); // .parents('ul'): ul까지만
+			
+			$('span').parentsUntil('div').css('background', 'beige'); // div는 빠지고 들어가있음(지정한 요소는 포함하지 않고 그 전까지만)
+
+		});
+	</script>
+</body>
+</html>

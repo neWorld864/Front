@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	.menu{
+		width: 300px; height: 30px; background: yellowgreen;
+		border-radius: 10px; text-align: center; cursor: pointer;
+		border: 1px solid green;
+	}
+	
+	.contents{
+		border: 1px solid lightgray;
+		width: 300px; height: 200px;
+		display: none;
+	}
+
+</style>
+</head>
+<body>
+	<h1>효과</h1>
+	
+	<h2>show()와 hide()</h2>
+	<p>문서 객체를 크게하며 보여주거나 작게하며 사라지게 함</p>
+	<button id="show">보이기</button>
+	<button id="hide">숨기기</button>
+	<button id="toggle">토글이</button>
+	<br>
+	<img id="river" src="../images/river1.PNG">
+	<script>
+		$(function(){
+			$('#show').click(function(){
+				$('#river').show(900); // 숫자를 넣으면 천천히 생김
+			});
+			
+			$('#hide').click(function(){
+				$('#river').hide(500); // 숫자를 넣으면 천천히 없어짐
+			});
+			
+			$('#toggle').click(function(){
+//				$('#river').toggle(); // show() + hide()
+			
+				console.log($('#river').css('display'));
+	
+				if($('#river').css('display') != 'none') {
+					$('#river').hide(); 
+				} else {
+					$('#river').show(); 
+				}
+			});
+		});
+	</script>
+	
+	<h2>slideDown()와 slideUp()</h2>
+	<div class="menu">첫 번째 메뉴</div>
+	<p class="contents">내용1</p>
+	<div class="menu">두 번째 메뉴</div>
+	<p class="contents">내용2</p>
+	<div class="menu">세 번째 메뉴</div>
+	<p class="contents">내용3</p>
+	<div class="menu">네 번째 메뉴</div>
+	<p class="contents">내용4</p>
+	<div class="menu">다섯 번째 메뉴</div>
+	<p class="contents">내용5</p>
+	
+	<script>
+		$(function(){
+			$('.menu').click(function(){
+				// 방법1
+				if($(this).next().css('display') == 'none'){ // next(): 내 다음 거
+					$(this).next().slideDown(500); // slideDown(): 선택된 요소에서 내려가 요소를 보여줌, 숫자 넣기도 가능~!
+				} else {
+					$(this).next().slideUp(); // slideUp(): 선택된 요소를 밀고 올라가 숨겨줌
+				}
+				
+				// 방법2
+//				$(this).next().slideToggle();
+
+			});
+		});
+	</script>
+	
+	<h2>fadeIn()와 fadeOut()</h2>
+	<button id="fadeIn">fadeIn()</button>
+	<button id="fadeOut">fadeOut()</button>
+	<button id="fadeToggle">toggle()</button>
+	<br>
+	<img id="flower" src="../images/flower1.PNG">
+	<script>
+		$(function(){
+			$('#fadeIn').click(function(){
+				$('#flower').fadeIn();wqq1aQEWQW
+			});
+			$('#fadeOut').click(function(){
+				$('#flower').fadeOut();
+			});
+			
+			$('#flower').hover( // hover(): mouseenter / mouseleave
+				function(){
+					$(this).fadeTo(700, 0.4);
+				}, function(){
+					$(this).fadeTo(700, 1);
+				}
+			);
+			
+			$('#fadeToggle').click(function(){
+				$('#flower').fadeToggle(2000);
+			});
+		});
+	</script>
+
+</body>
+</html>

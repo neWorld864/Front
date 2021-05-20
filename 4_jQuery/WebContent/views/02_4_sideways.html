@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<style>
+	.wrap, .wrap *{border: 1px solid lightgray; display: block; padding: 5px; margin: 15px;}
+</style>
+</head>
+<body>
+	<h1>객체 탐색</h1>
+	<h2>순회(탐색)메소드</h2>
+	<h3>sideways 메소드</h3>
+	<div class="wrap">div(parent)
+		<p>p</p>
+		<span>span</span>
+		<h4>h4</h4>
+		<h5>h5</h5>
+		<p>p</p>
+	</div>
+	<script>
+		$(function(){
+			// 선택된 요소와 같은 레벨에 있는 요소 리턴 (전후 상관없음)
+			$('h4').siblings().css({'color': 'red', 'border': '2px solid red'});
+			
+			// 인자가 있는 경우 인자와 일치하는 요소 리턴
+			$('h4').siblings('p').css({'color': 'orange', 'border': '2px solid orange'});
+			
+			// 선택된 요소의 같은 레벨의 형제들 중 선택된 요소 다음 한 개의 요소 리턴
+			$('h4').next().css({'color': 'blue', 'border': '2px solid blue'}); // ~210323
+			
+			// 선택된 요소의 같은 레벨의 형제들 중 선택된 요소 다음 모든 요소 리턴
+			$('h4').nextAll().css('font-size', '50px'); // h5의 폰트 크기가 50px로 바뀜
+			
+			// 선택된 요소부터 같은 레벨의 인자 범위까지의 모든 요소 리턴(지정 요소는 포함되지 않음)
+			$('h4').nextUntil('p').css('border', 'dashed'); // p는 바뀌지 않고 h5만 바뀜
+			
+			// 선택된 요소와 같은 레벨의 형제들 중 선택된 요소 이전의 한 개 요소 리턴
+			$('h4').prev().css({'background':'red', 'color': 'white'}); // 바로 이전 - span이 변함
+			
+			// 선택된 요소와 같은 레벨의 형제 요소 중 이전 모든 요소 리턴
+			$('h4').prevAll().css({'background': 'beige', 'color': 'red'}); // 첫 번째 p와 span이 바뀜
+			
+			// 선택된 요소와 같은 레벨의 인자 범위까지 모든 요소 리턴(지정 요소는 포함되지 않음)
+			$('h4').prevUntil('p').css('border', 'double'); // span이 바뀜
+			
+		});
+	</script>
+	
+	<hr>
+	
+	<h2>객체 탐색 테스트</h2>
+	
+	
+	<table border="1">
+		<tr>
+			<th>이름</th>
+			<th>나이</th>
+			<th>취미</th>
+		</tr>
+		<tr>
+			<td>강건강</td>
+			<td>25</td>
+			<td>운동</td>
+		</tr>
+		<tr>
+			<td>남나눔</td>
+			<td>17</td>
+			<td>요리</td>
+		</tr>
+		<tr>
+			<td>도대담</td>
+			<td>30</td>
+			<td>등산</td>
+		</tr>
+	</table>
+	<label>선택한 게시물 : </label>
+	<label id="selectName"></label> /
+	<label id="selectAge"></label> /
+	<label id="selectHobby"></label>
+	
+	
+	<script>
+		$(function(){ // eq()를 기억하자 !
+			$("tr").click(function(){
+				
+				var tds = $(this).children('td'); // th는 필요없으니 td만 가져오는 걸로
+				var name = tds.eq(0).text(); // eq(): 인덱스
+				var age = tds.eq(1).text();
+				var hobby = tds.eq(2).text();
+				
+				$("#selectName").text(name);
+				$("#selectAge").text(age);
+				$("#selectHobby").text(hobby);
+			});	
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+	.highlight-0{background: red;}
+	.highlight-1{background: orange;}
+	.highlight-2{background: yellow;}
+	.highlight-3{background: green;}
+	.highlight-4{background: blue;}
+	
+	#nemo{width: 100px; height: 100px; background: aquamarine;}
+</style>
+</head>
+<body>
+	<h1>객체 조작</h1>
+	
+	<h2>기본 설정</h2>
+	<h3>each()</h3>
+	<p>
+		for in문과 비슷한 메소드로 객체나 배열의 요소 검사<br>
+		<b>$.each(object, function(index, item){});</b><br>
+		<b>$(선택자).each(function(index, item){});</b><br>
+		index : <br>
+		item : 
+	</p>
+	<div id="urlDiv"></div>
+	<script>
+		$(function(){
+			var arr = [
+				{name: '네이버', link: 'http://www.naver.com'},
+				{name: '구글', link: 'http://www.google.com'},
+				{name: 'w3c', link: 'http://www.w3c.com'},
+				{name: 'w3cschool', link: 'http://www.w3cschool.com'},
+			];
+			
+			var output = "";
+			
+			$.each(arr, function(index, item){
+				console.log(index); // = 배열의 인덱스 번호, = 객체의 키
+				console.log(item); // = 배열의 값, = 키 값
+				
+				output += "<h4><a href='" + item.link + "'>" + item.name + "</a></h4>"; // 요소에 접근할 때: 대괄호나 점
+			});
+			
+//			$('#urlDiv').html(output); // 제이쿼리 코드
+			document.getElementById('urlDiv').innerHTML = output; // 자바스크립트 코드
+			// html(): 선택된 요소의 content영역을 리턴하거나 설정하는 메소드
+			//			html태그를 태그로 인식
+		});
+	</script>
+	
+	<div id="itemDiv">
+		<h4>item-0</h4>
+		<h4>item-1</h4>
+		<h4>item-2</h4>
+		<h4>item-3</h4>
+		<h4>item-4</h4>
+	</div>
+	
+	<script>
+		$(function(){
+			$('#itemDiv').children().each(function(index, item){ // h4에 접근, children에 h4 넣어줘도 되는데 자식이 h4밖에 없으므로 굳이 넣어줄 필요는 없음
+				console.log(index); // 0 1 2 3 4  인덱스 번호가 나옴
+				console.log(item); // <h4>item-0<h4> ... 값이 나옴
+				
+				$(this).addClass('highlight-' + index); // 색이 넣어짐
+				// addClass() : 선택된 요소에 클래스를 추가하는 메소드
+			}); 
+		});
+	</script>
+	
+	<h3>noConflict</h3>
+	<p>
+		많은 자바스크립트 라이브러리가 $을 함수, 변수로 사용하고 있기 때문에 jQuery라이브러리와 충돌하는 경우가 있음
+		이를 방지하기 위해 noConflict메소드를 통해 새로운 별칭 부여<br>
+		혹은 다른 버전의 jQuery와 $의 충돌 방지를 위해 사용
+	</p>
+	<script>
+//		var kh = $.noConflict(); // 이거 넣었더니 위에 설정 다 사라짐, 오류로 난리남
+//		kh(function(){
+//			kh('h1').css('color', 'red'); // 객체 조작 글씨가 빨간색으로
+//		});
+	</script>
+	
+	<h2>객체 생성 및 제거</h2>
+	<h3>요소 추가</h3>
+	<ul id="names">
+		<li id="nam">남나눔</li>
+		<li id="ryu">류라라</li>
+		<li id="mun">문미미</li>
+		<li id="song">송성실</li>
+	</ul>
+	<button onclick="addElement();">요소 추가</button>
+	<script>
+		function addElement(){
+			// 마지막에 요소 추가
+//			$('#names').append("<li id='yoon'>윤예의</li>"); // #names 맨 뒤에 요소를 append(추가)
+//			$('<li id="yoon">윤예의</li>').appendTo('#names'); // 요소를 #names 맨 뒤에 append(추가)함
+			// 둘이 같은 기능임
+			
+//			$('#names').prepend("<li id='kang'>강건강</li>"); // #names 맨 앞에 요소를 append(추가)
+//			$('<li id="kang">강건강</li>').prependTo('#names'); // 요소를 #names 맨 앞에 append(추가)함
+			// 둘이 같은 기능임
+			
+			// 해당 요소 앞에 추가
+//			$('#song').before('<li id="park">박보배</li>'); // 송성실 앞에 붙음
+//			$('<li id="park">박보배</li>').insertBefore('#song');
+			// 둘이 같은 기능임
+			
+			// 해당 요소 뒤에 추가
+//			$('#nam').after('<li id="do">도대담</li>'); // 남나눔 뒤에 붙음
+			$('<li id="do">도대담</li>').insertAfter('#nam');
+			// 둘이 같은 기능임
+		};
+	</script>
+	
+	<h3>요소 복사</h3>
+	<script>
+		$(function(){ // 네이버 구글 w3c w3cschool 복사 -> div 안에 담겨있음
+			console.log($('#urlDiv').clone());
+		
+		$('#urlDiv').clone().appendTo('#itemDiv'); // $('#urlDiv').clone() : 붙여넣을 대상 -> 붙여넣을 곳이 뒤에 나옴 ==> appendTo() 써야 함
+		// .clone()이 복사하는 건가봄
+		// -> item 뒤에 붙어서 나옴
+		});
+	</script>
+	
+	<h3>요소 삭제</h3>
+	<div id="colorDiv" class="colorDiv">
+		<ul id="colorUl">
+			<li>pink</li>
+			<li>skyblue</li>
+			<li>yellow</li>
+			<li>yellowgreen</li>
+		</ul>
+	</div>
+	<button onclick="return1();">되돌리기</button>
+	
+	<div id="colorDiv2" class="colorDiv">
+		<ul id="colorUl2">
+			<li>pink</li>
+			<li>skyblue</li>
+			<li>yellow</li>
+			<li>yellowgreen</li>
+		</ul>
+	</div>
+	<button onclick="return2();">되돌리기</button>
+	
+	<div id="colorDiv3" class="colorDiv">
+		<ul id="colorUl3">
+			<li>pink</li>
+			<li>skyblue</li>
+			<li>yellow</li>
+			<li>yellowgreen</li>
+		</ul>
+	</div>
+	<button onclick="return3();">되돌리기</button>
+	
+	<script>
+		var removeVal;
+		var detachVal;
+		var emptyVal;
+		
+		$(function(){
+			
+			// 각 li에 마우스를 올리면(mouseover) 글자는 하얗게, 배경은 내용 색깔로 칠해짐
+			// 		ex. pink에 마우스를 올리면 배경은 pink, 글자는 하얗게
+			// li에 마우스가 벗어나면(mouseout) 배경은 하얗게, 글자는 까맣게
+			
+			$('.colorDiv').find('li').mouseover(function(){
+				var color = $(this).text();
+				$(this).css({'background': color, 'color': 'white'});
+			}).mouseout(function(){
+				$(this).css({'background': 'white', 'color': 'black'});
+			});
+			
+			removeVal = $('#colorUl').remove(); 
+			detachVal = $('#colorUl2').detach();
+			emptyVal = $('#colorUl3').empty();
+			
+			console.log(removeVal); // remove를 해서 삭제된 객체가 들어가있음
+			console.log(detachVal); // detach를 해서 삭제된 객체가 들어가있음
+			console.log(emptyVal); // empty를 해서 삭제된 객체가 들어가있음
+			// 일단은 셋 다 삭제가 된 것처럼 보임
+		});
+		
+		function return1(){
+			$('#colorDiv').html(removeVal); // html()해서 다시 다 만들어줌
+			// html(): html 태그가 들어가있을때 그대로 인지해서 다시 다 만들어주는 함수
+			// 되돌려짐, 하지만 이벤트(마우스 들어갔을 때 나왔을 때)는 사라짐
+			// -> 데이터 형태는 유지가 되나 이벤트는 모두 제거됨
+		}
+		
+		function return2(){
+			$('#colorDiv2').html(detachVal); // html()해서 다시 다 만들어줌
+			// 되돌려짐, 이벤트까지 되돌려짐
+			// -> 데이터 형태와 이벤트 모두 유지(화면에서 제거했다가 추후에 재삽입할 경우 사용)
+			
+		}
+		
+		function return3(){
+			$('#colorDiv3').html(emptyVal); // html()해서 다시 다 만들어줌
+			// 되돌려지지 않음!
+			// 데이터 형태도 유지하지 않고 리턴만 함
+			
+		}
+	</script>
+	
+	<hr>
+	
+	<h3>객체 조작 테스트</h3><!-- ~210324, 210325~ -->
+	<div id="nemo">
+		<button class="boksa">복사</button> <!-- id가 된다면 복사했을 경우 각각의 버튼의 id가 boksa로 동일해짐 => class가 되어야 함 -->
+		<button class="sakje">삭제</button>
+	</div>
+	<div id="content"></div>
+	
+	<script>
+/* 		$(function(){ // 페이지가 로드될 때 실행되는 함수 -> 복사된 객체들은 페이지가 로드될 때 있던 애들이 아니기 때문에 적용이 안 됨 ==> 다른 함수 써야함
+			// 복사 버튼을 누르면 div content에 똑같은 div가 복사되어 붙여넣어짐
+			// 삭제를 누르면 해당 div는 삭제됨
+			$('.boksa').click(function(){
+				$(this).parent().clone().appendTo('#content'); // parent()가 중요
+			});
+			$('.sakje').click(function(){
+				$(this).parent().remove();
+			});
+			
+		}); */
+		
+		$(document).on('click', '.boksa', function(){
+			$(this).parent().clone().appendTo('#content');
+		}).on('click', '.sakje', function(){
+			$(this).parent().remove();
+		});
+
+	</script>
+
+</body>
+</html>
