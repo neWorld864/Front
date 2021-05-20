@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.practice{width:500px; height: 100px; border: 1px solid black; overflow: scroll;}
+</style>
+</head>
+<body>
+	<h3>Practice1</h3>
+	<form>
+		<fieldset>
+			<legend>취미</legend>
+			<table>
+				<tr>
+					<td><input type="checkbox" value="전체선택" id="all" onclick="selectAll()"><label>전체선택</label></td>
+					<td><input type="checkbox" name="hobby" value="종합" id="total" onclick="selectOne();"><label>종합</label></td>
+					<td><input type="checkbox" name="hobby" value="소설" id="novel" onclick="selectOne();"><label>소설</label></td>
+					<td><input type="checkbox" name="hobby" value="시/에세이" id="poem" onclick="selectOne();"><label>시/에세이</label></td>
+					<td><input type="checkbox" name="hobby" value="경제/경영" id="economy" onclick="selectOne();"><label>경제/경영</label></td>
+					<td><input type="checkbox" name="hobby" value="자기계발" id="improvement" onclick="selectOne();"><label>자기계발</label></td>
+					<td><input type="checkbox" name="hobby" value="아동" id="child" onclick="selectOne();"><label>아동</label></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="checkbox" name="hobby" value="여행" id="travel" onclick="selectOne();"><label>여행</label></td>
+					<td><input type="checkbox" name="hobby" value="과학" id="science" onclick="selectOne();"><label>과학</label></td>
+					<td><input type="checkbox" name="hobby" value="역사/문화" id="history" onclick="selectOne();"><label>역사/문화</label></td>
+					<td><input type="checkbox" name="hobby" value="외국어" id="language" onclick="selectOne();"><label>외국어</label></td>
+					<td><input type="checkbox" name="hobby" value="컴퓨터" id="computer" onclick="selectOne();"><label>컴퓨터</label></td>
+					<td><input type="checkbox" name="hobby" value="만화" id="comics" onclick="selectOne();"><label>만화</label></td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+	<br>
+	<button onclick="categorySelect();">카테고리 선택</button>
+	<div id="practice1" class="practice"></div>
+	<script>
+		var all = document.getElementById('all');
+		var hobby = document.getElementsByName('hobby');
+	
+	
+		function selectAll() {
+			if(all.checked){
+				for(var i = 0; i < hobby.length; i++){
+					hobby[i].checked = true;
+				}
+			} else {
+				for(var i = 0; i < hobby.length; i++){
+					hobby[i].checked = false;
+				}
+			}
+		}
+		// 전체선택이 체크되면 돌아가면서 체크 true, 전체선택이 해지되면 돌아가면서 체크 false
+		
+		function selectOne(){
+			var count = 0;
+			
+			for(var i = 0; i < hobby.length; i++){
+				if(hobby[i].checked){
+					count++;
+				}
+			}
+			
+			if(count != 12){
+				all.checked = false
+			} else {
+				all.checked = true;
+			}
+		}
+		
+		function categorySelect(){
+			var result = "";
+			
+			for(var i = 0; i < hobby.length; i++){
+				if(hobby[i].checked){
+					result += hobby[i].value + " ";
+				} else {
+					all.checked = false;
+				}
+			}
+			
+			var practice = document.getElementById("practice1");
+			practice1.innerHTML = result;
+			
+		}
+	</script>
+
+</body>
+</html>

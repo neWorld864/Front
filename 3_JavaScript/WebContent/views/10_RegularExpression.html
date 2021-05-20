@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.area{border: 1px solid black; min-height: 100px;}
+</style>
+</head>
+<body>
+	<h1>정규 표현식</h1>
+	<h2>정규 표현식의 객체 생성</h2>
+	<button onclick="test1();">확인하기</button>
+	<div id="area1" class="area"></div>
+	<script>
+		function test1(){
+			var area = document.getElementById('area1');
+			
+			// 1. new
+//			var regExp = new RegExp('script'); // 방법1
+//			var regExp = new RegExp(/script/); // 방법2 : ' / / '가 정규표현식을 나타내는 기호 같은 것임
+			// 2. 스크립트 작성
+			var regExp = /script/; // 방법3
+//			var regExp = 'script'; // 불가능: 얘는 안 됨, 그냥 변수에 값 넣는 것? 그정도임
+
+			var str = 'javascript jquery ajax';
+			
+			// test() : 해당 글자가 있으면 true, 없으면 false
+			area.innerHTML += 'test() 함수 : ' + regExp.test(str) + "<br>"; // true
+			// extc() : 해당 글자가 없으면 null, 있으면 해당 문자열 반환
+			area.innerHTML += 'test() 함수 : ' + regExp.exec(str) + "<br>"; // script
+			
+		}
+	</script>
+	
+	<h2>$&, $`, $'</h2>
+	<button onclick="test2();">실행확인</button>
+	<div id="area2" class="area"></div>
+	<script>
+		function test2(){
+			var area = document.getElementById('area2');
+			var regExp = /as/;
+			
+			var str = "javascript jquery ajax sass";
+			
+			area.innerHTML += '원 글자 : ' + str + "<br>";
+			// 원 글자 : javascript jquery ajax sass
+			
+			// $& : 제일 처음 일치하는 문자열 의미
+			area.innerHTML += "$& : " + str.replace(regExp, '($&)') + "<br>"; // replace: 대체해줌
+			// $& : jav(as)cript jquery ajax sass 앞에 있는 것만 대체돼서 나옴, sass에 있는 as는 바뀌지 않음
+			
+			// $` : 매칭된 문자열의 앞 문자열을 의미
+			area.innerHTML += "$` : " + str.replace(regExp, '($`)') + "<br>";
+			// $` : jav(jav)cript jquery ajax sass
+			
+			// $' : 매칭된 문자열의 뒤 문자열을 의미
+			area.innerHTML += "$' : " + str.replace(regExp, "($')") + "<br>"; 
+			// $' : jav(cript jquery ajax sass)cript jquery ajax sass
+		}
+	</script>
+	
+	<h2>()소괄호와 |</h2>
+	<button onclick="test3();">실행확인</button>
+	<div id="area3" class="area"></div>
+	<script>
+		function test3(){
+			var src = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
+			
+			var area = document.getElementById('area3');
+//			var regExp = /(금요일|토요일|일요일)/; // 방법1: 여러 문자열 중 해당하는 것을 검색하고자 할 때
+			var regExp = /(금|토|일)요일/; // 방법2: 여러 문자열 중 해당하는 것을 검색하고자 할 때
+
+			
+			for(var i = 0; i < src.length; i++){
+				area.innerHTML += src[i] + " : " + regExp.test(src[i]) + "<br>";
+			}
+			/*  월요일 : false
+				화요일 : false
+				수요일 : false
+				목요일 : false
+				금요일 : true
+				토요일 : true
+				일요일 : true  */
+		}
+	</script>
+	
+	<h2>플래그 문자</h2>
+	<button onclick="test4();">실행확인</button>
+	<div id="area4" class="area"></div>
+	<script>
+		function test4(){
+			var area = document.getElementById('area4');
+			
+			var str = "JAvaScript JQuery Ajax\nJAvaScript JQuery Ajax";
+			
+			var regExp1 = /a/; // 처음에 나오는 a만 찾아줌
+			var regExp2 = /a/g; // 전역 비교 : 소문자 a는 다 찾아줌, /a/로 했으니 소문자 a를 찾는 거임
+			var regExp3 = /a/i; // 대소문자를 가리지 않고 비교 : 대소문자 상관 없이 첫 번째 aA를 찾아줌
+			var regExp4 = /a/gi; // 대소문자 상관 없이 모든 a를 다 찾아줌
+			
+			area.innerHTML += regExp1 + " : " + str.replace(regExp1, '($&)') + '<br>';
+			area.innerHTML += regExp2 + " : " + str.replace(regExp2, '($&)') + '<br>';
+			area.innerHTML += regExp3 + " : " + str.replace(regExp3, '($&)') + '<br>';
+			area.innerHTML += regExp4 + " : " + str.replace(regExp4, '($&)') + '<br>';
+			/*  /a/ : JAv(a)Script JQuery Ajax JAvaScript JQuery Ajax
+				/a/g : JAv(a)Script JQuery Aj(a)x JAv(a)Script JQuery Aj(a)x
+				/a/i : J(A)vaScript JQuery Ajax JAvaScript JQuery Ajax
+				/a/gi : J(A)v(a)Script JQuery (A)j(a)x J(A)v(a)Script JQuery (A)j(a)x  */
+		}
+	</script>
+	
+	<h2>앵커문자</h2>
+	<button onclick="test5();">실행확인</button>
+	<div id="area5" class="area"></div>
+	<script>
+		function test5(){
+			var area = document.getElementById('area5');
+			
+			var str = 'JavaScript\nJQuery\nAjax';
+			
+			var regExp1 = /^j/gi; // ^ : gi가 있어도 전역 비교가 불가함, 문자열의 맨 앞 구분
+			var regExp2 = /^j/gim; // m : 여러 줄까지 비교 가능하게 함, 각 문자열의 맨 앞만 구분
+			
+			area.innerHTML += "<h4>" + str + "</h4>";
+			// JavaScript JQuery Ajax
+			
+			area.innerHTML += regExp1 + " : " + str.replace(regExp1, '($&)') + "<br>";
+			// /^j/gi : (J)avaScript JQuery Ajax
+			
+			area.innerHTML += regExp2 + " : " + str.replace(regExp2, '($&)') + "<br>";
+			// /^j/gim : (J)avaScript (J)Query Ajax : Ajax는 j가 맨 앞에 있지 않기 때문에 구분이 불가함
+			
+			var str2 = "JavaScript\nJQuery\nShellScript\nAjax";
+			
+			var regExp3 = /ipt$/gi; // $ : 문자열의 뒤 구분, ipt로 끝나는 것을 찾아라
+			var regExp4 = /ipt$/gim; 
+			
+			area.innerHTML += "<h4>" + str2 + "</h4>";
+			// JavaScript JQuery ShellScript Ajax
+			
+			area.innerHTML += regExp3 + " : " + str2.replace(regExp3, '($&)') + "<br>";
+			// /ipt$/gi : JavaScript JQuery ShellScript Ajax : Ajax가 ipt로 끝나지 않아서 표기가 안 됨
+			
+			area.innerHTML += regExp4 + " : " + str2.replace(regExp4, '($&)') + "<br>";
+			// /ipt$/gim : JavaScr(ipt) JQuery ShellScr(ipt) Ajax : 여러 줄 중에서 ipt로 끝나는 것들 모두 찾기
+			
+		}
+	</script>
+	
+	<h2>수량 문자</h2>
+	<button onclick="test6();">실행확인</button>
+	<div id="area6" class="area"></div>
+	<script>
+		function test6(){
+			var area = document.getElementById('area6');
+			var src = "aabc abc bc";
+			
+			var regExp1 = /a*b/g; // a* = a가 0개 이상 / a*b = a가 0개 이상이고 뒤에 b가 붙는 -> b를 찾으면 됨
+			var regExp2 = /a+b/g; // a+ = a가 1개 이상 / a+b = a가 1개 이상이고 뒤에 b가 붙는 
+			var regExp3 = /a?b/g; // a? = a가 0개 또는 1개 / a?b = a가 0개나 1개이고 뒤에 b가 붙는
+			
+			area.innerHTML += regExp1 + " : " + src.replace(regExp1, '($&)') + "<br>";
+			// /a*b/g : (aab)c (ab)c (b)c 
+			
+			area.innerHTML += regExp2 + " : " + src.replace(regExp2, '($&)') + "<br>";
+			// /a+b/g : (aab)c (ab)c bc -> a와 b가 같이 있는 모든 곳 표기(중복 가능)
+			
+			area.innerHTML += regExp3 + " : " + src.replace(regExp3, '($&)') + "<br>";
+			// /a?b/g : a(ab)c (ab)c (b)c -> a나 b가 있는 모든 곳 표기(중복 불가)
+		}
+	</script>
+	
+	<h3>{}를 이용한 수량 표현</h3>
+	<button onclick="test7();">실행확인</button>
+	<div id="area7" class="area"></div>
+	<script>
+		function test7(){
+			var area = document.getElementById('area7');
+			var src = "AA ABA ABBA ABBBA";
+			
+			// a{5}		: a가 5개
+			// a{2, 5}	: a가 2~5개
+			// a{2,}	: a가 2개 이상
+			// a{,2}	: a가 2개 이하
+			
+			var regExp11 = /AB*A/g;
+			var regExp12 = /AB{0,}A/g;
+			area.innerHTML += regExp11 + " : " + src.replace(regExp11, '($&)') + '<br>';
+			///AB*A/g : (AA) (ABA) (ABBA) (ABBBA) 둘 다 값이 똑같이 나옴
+			area.innerHTML += regExp12 + " : " + src.replace(regExp12, '($&)') + '<br>';
+			///AB{0,}A/g : (AA) (ABA) (ABBA) (ABBBA)
+			
+			var regExp21 = /AB+A/g;
+			var regExp22 = /AB{1,}A/g;
+			area.innerHTML += regExp21 + " : " + src.replace(regExp21, '($&)') + '<br>';
+			///AB+A/g : AA (ABA) (ABBA) (ABBBA)
+			area.innerHTML += regExp22 + " : " + src.replace(regExp22, '($&)') + '<br>';
+			///AB{1,}A/g : AA (ABA) (ABBA) (ABBBA)
+			
+			var regExp31 = /AB?A/g;
+			var regExp32 = /AB{0, 1}A/g;
+			area.innerHTML += regExp31 + " : " + src.replace(regExp31, '($&)') + '<br>';
+			///AB?A/g : (AA) (ABA) ABBA ABBBA
+			area.innerHTML += regExp32 + " : " + src.replace(regExp32, '($&)') + '<br>';
+			///AB{0, 1}A/g : AA ABA ABBA ABBBA
+		}
+	</script>
+	
+	<h2>메타문자와 []대괄호</h2>
+	<button onclick="test8();">실행확인</button>
+	<div id="area8" class="area"></div>
+	<script>
+		function test8(){
+			var area = document.getElementById('area8');
+			
+			var str1 = "JavaScript JQuery Ajax";
+			var str2 = "123JavaScript";
+			
+			var regExp1 = /[aj]/ig; // a 또는 j
+			var regExp2 = /[^aj]/ig; // 대괄호 안에서의 ^는 시작이 아니라 특정 문자열 제외
+			var regExp3 = /[a-z]/g; // 문자 범위 : 소문자 / 소문자를 체크하고 싶을 때
+			var regExp4 = /[A-Z]/g; // 문자 범위 : 대문자
+			var regExp5 = /[0-9]/g; // 문자 범위 : 숫자
+			var regExp6 = /[a-z0-9]/g; // 문자 범위 : 소문자와 숫자 모두
+			
+			area.innerHTML += regExp1 + " : " + str1.replace(regExp1, '($&)') + '<br>';
+			// /[aj]/gi : (J)(a)v(a)Script (J)Query (A)(j)(a)x
+			area.innerHTML += regExp2 + " : " + str1.replace(regExp2, '($&)') + '<br>';
+			// /[^aj]/gi : Ja(v)a(S)(c)(r)(i)(p)(t)( )J(Q)(u)(e)(r)(y)( )Aja(x)
+			area.innerHTML += regExp3 + " : " + str2.replace(regExp3, '($&)') + '<br>';
+			// /[a-z]/g : 123J(a)(v)(a)S(c)(r)(i)(p)(t)
+			area.innerHTML += regExp4 + " : " + str2.replace(regExp4, '($&)') + '<br>';
+			// /[A-Z]/g : 123(J)ava(S)cript
+			area.innerHTML += regExp5 + " : " + str2.replace(regExp5, '($&)') + '<br>';
+			// /[0-9]/g : (1)(2)(3)JavaScript
+			area.innerHTML += regExp6 + " : " + str2.replace(regExp6, '($&)') + '<br>';
+			// /[a-z0-9]/g : (1)(2)(3)J(a)(v)(a)S(c)(r)(i)(p)(t)
+		}
+	</script>
+	
+	<h3>추가 메타 문자</h3>
+	<button onclick="test9();">실행확인</button>
+	<div id="area9" class="area"></div>
+	<script>
+		function test9(){
+			var area = document.getElementById('area9');
+			var src = 'A1 B2 C3 d_4 e:5` ffGG77--__--	가\n나\n다';
+			area.innerHTML += '<h2>' + src + "</h2>"; 
+			// A1 B2 C3 d_4 e:5` ffGG77--__-- 가 나 다
+			
+			var regExp1 = /\d/g; // 숫자
+			area.innerHTML += regExp1 + " : " + src.replace(regExp1, '($&)') + '<br>'; 
+			// /\d/g : A(1) B(2) C(3) d_(4) e:(5)` ffGG(7)(7)--__-- 가 나 다
+			
+			var regExp2 = /\w/g; // 영어, 숫자, _
+			area.innerHTML += regExp2 + " : " + src.replace(regExp2, '($&)') + '<br>'; 
+			// /\w/g : (A)(1) (B)(2) (C)(3) (d)(_)(4) (e):(5)` (f)(f)(G)(G)(7)(7)--(_)(_)-- 가 나 다
+			
+			var regExp3 = /\s/g; // 공백
+			area.innerHTML += regExp3 + " : " + src.replace(regExp3, '($&)') + '<br>'; 
+			// /\s/g : A1( )B2( )C3( )d_4( )e:5`( )ffGG77--__--( )가( )나( )다
+			
+			
+			// 부정
+			var regExp4 = /\D/g; // 숫자
+			area.innerHTML += regExp4 + " : " + src.replace(regExp4, '($&)') + '<br>'; 
+			// /\D/g : (A)1( )(B)2( )(C)3( )(d)(_)4( )(e)(:)5(`)( )(f)(f)(G)(G)77(-)(-)(_)(_)(-)(-)( )(가)( )(나)( )(다)
+			
+			var regExp5 = /\W/g; // 영어, 숫자, _
+			area.innerHTML += regExp5 + " : " + src.replace(regExp5, '($&)') + '<br>'; 
+			// /\W/g : A1( )B2( )C3( )d_4( )e(:)5(`)( )ffGG77(-)(-)__(-)(-)( )(가)( )(나)( )(다)
+			
+			var regExp6 = /\S/g; // 공백
+			area.innerHTML += regExp6 + " : " + src.replace(regExp6, '($&)') + '<br>'; 
+			// /\S/g : (A)(1) (B)(2) (C)(3) (d)(_)(4) (e)(:)(5)(`) (f)(f)(G)(G)(7)(7)(-)(-)(_)(_)(-)(-) (가) (나) (다)
+			
+			
+			// []로 표현해보기
+			var regExp7 = /[0-9]/g; 
+			area.innerHTML += regExp7 + " : " + src.replace(regExp7, '($&)') + '<br>'; 
+			// /[0-9]/g : A(1) B(2) C(3) d_(4) e:(5)` ffGG(7)(7)--__-- 가 나 다
+			
+			var regExp8 = /[A-Za-z0-9_]/g; 
+			area.innerHTML += regExp8 + " : " + src.replace(regExp8, '($&)') + '<br>'; 
+			// /[A-Za-z0-9_]/g : (A)(1) (B)(2) (C)(3) (d)(_)(4) (e):(5)` (f)(f)(G)(G)(7)(7)--(_)(_)-- 가 나 다
+			
+			var regExp9 = /[ \t\n]/g; // \t: 공백 \n: 줄바꿈
+			area.innerHTML += regExp9 + " : " + src.replace(regExp9, '($&)') + '<br>'; 
+			// /[ \t\n]/g : A1( )B2( )C3( )d_4( )e:5`( )ffGG77--__--( )가( )나( )다
+			
+			var regExp10 = /[^0-9]/g; 
+			area.innerHTML += regExp10 + " : " + src.replace(regExp10, '($&)') + '<br>'; 
+			// /[^0-9]/gi : (A)1( )(B)2( )(C)3( )(d)(_)4( )(e)(:)5(`)( )(f)(f)(G)(G)77(-)(-)(_)(_)(-)(-)( )(가)( )(나)( )(다)
+			
+			var regExp11 = /[^A-Za-z0-9_]/g; 
+			area.innerHTML += regExp11 + " : " + src.replace(regExp11, '($&)') + '<br>'; 
+			// /[^A-Za-z0-9_]/g : A1( )B2( )C3( )d_4( )e(:)5(`)( )ffGG77(-)(-)__(-)(-)( )(가)( )(나)( )(다)
+			
+			var regExp12 = /[^ \n\t]/g;
+			area.innerHTML += regExp12 + " : " + src.replace(regExp12, '($&)') + '<br>'; 
+			// /[^ \n\t]/g : (A)(1) (B)(2) (C)(3) (d)(_)(4) (e)(:)(5)(`) (f)(f)(G)(G)(7)(7)(-)(-)(_)(_)(-)(-) (가) (나) (다)
+
+		}
+	</script>
+	
+	<h2>Escaping</h2>
+	<button onclick="escape();">실행확인</button>
+	<div id="area-escape" class="area"></div>
+	<script>
+		function escape(){
+			var area = document.getElementById('area-escape');
+			var src = '$12$ \\-\\ $25$'; // \는 기호 앞에 붙여서 기호임을 나타냄?
+			
+			var regExp1 = /$/; // 맨 뒤에 위치하는 것 찾기
+			var regExp2 = /\$/;
+			var regExp3 = /\$/g;
+			var regExp4 = /\$$/; // 맨 뒤에 있는 $ 찾기, $ 자체가 맨 뒤를 나타냄
+			var regExp5 = /\\/g; // \만 찾기
+			
+			area.innerHTML += "<h2>" + src + "</h2>";
+			// $12$ \-\ $25$
+			
+			area.innerHTML += regExp1 + " : " + src.replace(regExp1, '($&)') + "<br>";
+			// /$/ : $12$ \-\ $25$() -> 맨 뒤에 위치하는게 공백이라 공백을 체크한건가?
+			area.innerHTML += regExp2 + " : " + src.replace(regExp2, '($&)') + "<br>";
+			// /\$/ : ($)12$ \-\ $25$ -> 맨 앞
+			area.innerHTML += regExp3 + " : " + src.replace(regExp3, '($&)') + "<br>";
+			// /\$/g : ($)12($) \-\ ($)25($) -> 전역 비교
+			area.innerHTML += regExp4 + " : " + src.replace(regExp4, '($&)') + "<br>";
+			// /\$$/ : $12$ \-\ $25($)
+			area.innerHTML += regExp5 + " : " + src.replace(regExp5, '($&)') + "<br>";
+			// /\\/g : $12$ (\)-(\) $25$
+			
+		}
+	</script>
+	
+	<h2>포인트</h2>
+	<button onclick="point();">실행확인</button>
+	<div id="area-point" class='area'></div>
+	<script>
+		function point(){
+			var area = document.getElementById('area-point');
+			var regExp1 = /a.b/; // ab앞 뒤로 글자가 있고 그 가운데에 한 글자
+			area.innerHTML += regExp1 + ": ab -> " + regExp1.test('ab') + '<br>';
+			// /a.b/: ab -> false ==> a와 b 사이에 글자 없음 == false
+			
+			area.innerHTML += regExp1 + ": a아b -> " + regExp1.test('a아b') + '<br>';
+			// /a.b/: a아b -> true ==> a와 b 사이에 '아' 한 글자 == true
+			
+			area.innerHTML += regExp1 + ": a아자b -> " + regExp1.test('a아자b') + '<br>';
+			// /a.b/: a아자b -> false ==> a와 b 사이에 '아자' 두 글자 == false
+			
+			var regExp2 = /xy./;
+			area.innerHTML += regExp2 + ": xyz -> " + regExp2.test('xyz') + '<br>';
+			// /xy./: xyz -> true
+			
+			area.innerHTML += regExp2 + ": wxy  -> " + regExp2.test('wxy ') + '<br>';
+			// /xy./: wxy  -> true ==> 공백도 한 글자로 인지
+			
+			var regExp3 = /in.$/; // 맨 뒤 글자가 in이 붙은 어떤 것이어야 함 ==> in? 로 끝나야 함
+			area.innerHTML += regExp3 + ": going  -> " + regExp3.test('going') + '<br>';
+			// /in.$/: going -> true
+			
+			area.innerHTML += regExp3 + ": inner  -> " + regExp3.test('inner') + '<br>';
+			// /in.$/: inner -> false
+			
+		}
+	</script>
+	
+	<h2>예제</h2>
+	<h3>주민등록번호</h3>
+	<input type="text" id="ssn"><button onclick="validate();">실행확인</button>
+	<script>
+		function validate(){
+			var pno = document.getElementById('ssn').value;
+			
+			var regExp = /^\d{2}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[01])-[1-4]\d{6}$/ ;
+			/*
+				생년 ^\d{2}
+				생월 (0[1-9]|1[0-2])
+				01 02 03 04 05 06 07 08 09
+				10 11 12
+				생일 (0[1-9]|[1-2][0-9]|3[01])
+				01 02 03 04 05 06 07 08 09
+				10 11 12 13 14 15 16 17 18 19
+				20 21 22 23 24 25 26 27 28 29
+				30 31
+				
+				성별 [1-4]
+				그 뒤 숫자 6개 \d{6}$ 
+			*/
+			
+			
+			// 정상적으로 잘 입력했으면 '정상입력!', 잘못됐으면 '잘못입력!' alert창
+			if(regExp.test(pno)) {
+				alert('정상입력!');
+			} else {
+				alert('잘못입력!');
+			}
+		}
+	</script>
+	
+</body>
+</html>

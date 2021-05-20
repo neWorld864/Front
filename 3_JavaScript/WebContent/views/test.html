@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+<!-- <script>
+	$(function(){ // eq()를 기억하자 !
+		$("tr").click(function(){
+			
+			var tds = $(this).children('td'); // th는 필요없으니 td만 가져오는 걸로
+			var first = tds.eq(0).text(); // eq(): 인덱스
+			var second = tds.eq(1).text();
+			var third = tds.eq(2).text();
+			
+			$("#firstContent").text(first);
+			$("#secondContent").text(second);
+			$("#thirdContent").text(third);
+		});	
+	});
+</script> -->
+</head>
+<body>
+
+	<!-- <table border="1">
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>첫 번째 게시물 입니다</td>
+			<td>홍길동</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>두 번째 게시물 입니다​</td>
+			<td>홍길동​</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>세 번째 게시물 입니다​</td>
+			<td>홍길동​</td>
+		</tr>
+	</table>
+	<div>
+	<label>선택한 게시물 : </label>
+	<label id="firstContent"></label><span></span> /
+	<label id="secondContent"></label><span></span> /
+	<label id="thirdContent"></label><span></span>
+	</div> -->
+	
+	<!-- <script>
+		$(function(){
+			console.log("문서 읽어들이기 완료");
+		});
+	</script> -->
+	
+	<button id="btn1" onclick="testClick();">확인</button>
+	<script>
+		function testClick(){
+			window.alert('클릭하였음');
+		}
+	</script>
+
+</body>
+</html>

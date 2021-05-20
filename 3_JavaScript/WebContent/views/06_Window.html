@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>window 객체</h1>
+	<p>
+		window객체는 자바스크립트의 최상위 객체이며 BOM과 DOM으로 나뉨<br>
+		BOM(Browser Object Model) : location객체, navigator객체, history객체, screen객체
+		DOM(Document Object Model) : document객체
+	</p>
+	
+	<h2>window객체</h2>
+	<p>브라우저 창에 대한 설정을 하는 객체</p>
+	<button onclick="test1();">실행1</button>
+	<button onclick="test2();">실행2</button>
+	<script>
+		function test1(){
+			window.open('https://www.naver.com', '네이버', 'width=500, height=300'); // '네이버'라고 이름을 지정해줬을때 비로소 창이 새로 생김, 지정 안 해주면 그냥 새창으로 뜸
+		}
+		
+		function test2(){
+//			var popup = window.open("", "_self");
+			var popup = window.open("", "", "width=500, height=300");
+			popup.document.write('<html><body><h1>나 팝업</h1></body></html>');
+		}
+	</script>
+	
+	<h3>window객체의 timer메소드</h3>
+	<h4>setTimeout()</h4>
+	<button onclick="test3()">실행확인</button>
+	<script>
+		function test3() {
+			var myWindow = window.open('', '', 'width=500, height=300');
+			
+			myWindow.alert('3초 후 이 페이지는 종료됩니다.'); // 확인 누르고 3초 뒤에 없어짐
+			
+			window.setTimeout(function(){
+				myWindow.close();
+			}, 3000);
+		}
+	</script>
+	
+	<h4>setInterval()</h4>
+	<button onclick="test4();">실행확인</button>
+	<div id="area" style="border: 1px solid black; width: 300px; height: 100px; font-size: 40px; color: red;"></div>
+	<script>
+		function test4(){
+			var area = document.getElementById('area');
+			
+			window.setInterval(function(){
+				var date = new Date(); // Date(): 현재 시간 뽑아주는 객체
+				area.innerHTML = date.getHours() + ":"
+								+ date.getMinutes() + ":"
+								+ date.getSeconds();
+			}, 1000);
+		}
+	</script>
+	
+	<h4>clearInterval()</h4>
+	<button onclick="test5()">실행확인</button>
+	<div id="area2" style="border: 1px solid black; width: 300px; height: 100px; font-size: 40px; color: red;"></div>
+	<script>
+		function test5() {
+			var area = document.getElementById('area2');
+			
+			var count = 3;
+			
+			var intervalId = window.setInterval(function(){
+				area.innerHTML = 'countdown : ' + count--;
+			
+				if(count < 0){
+					clearInterval(intervalId); // intervalId을 지워줘야 countdown이 마이너스로 내려가지 않음
+					area.innerHTML += '종료!';
+				}
+			}, 1000); // 1000이라고 시간을 넣어줘야 countdown이 됨, 하지만 제대로 작동 안 됨 => clearInterval을 해야함
+		}
+	</script>
+
+</body>
+</html>

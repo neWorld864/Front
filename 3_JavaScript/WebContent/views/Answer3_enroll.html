@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Practice3</title>
+</head>
+<body>
+	<h1>Practice3-1</h1>
+	<!-- 
+		onkeypress, onkeydown, onkeyup
+		https://ggmouse.tistory.com/179
+		https://simplesolace.tistory.com/entry/자바스크립트예제-아이디-중복확인-예제-문자열-비교
+	 -->
+	<fieldset>
+		<legend>회원가입</legend>	
+		아이디 : <input type="text" id="userId" name="userId" onkeyup="validate();">
+		<span id="existId"></span>
+		<br><br>
+		비밀번호 : <input type="password" id="userPwd1" name="userPwd1">
+		<br><br>
+		비밀번호 확인 : <input type="password" id="userPwd2" name="userPwd2" onblur="focusOut();">
+		<span id="equalsPwd"></span>
+		<br><br>
+		이름 : <input type="text" id="name" name="name">
+		<br><br>
+		<button onclick="enroll();">회원가입</button>
+	</fieldset>
+	
+	<script>
+		function validate(){
+			console.log("눌렷다?");
+			var userId = document.getElementById("userId").value;
+			var existId = document.getElementById("existId");
+			
+			if(userId == "" || userId.length == 0){
+				existId.innerHTML = "";
+			} else if(userId == "user01"){
+				existId.style.color = "red";
+				existId.innerHTML = "이미 존재하는 아이디입니다.";
+			} else {
+				existId.style.color = "green";
+				existId.innerHTML = "사용가능한 아이디입니다.";
+			}
+		}
+		
+		function focusOut(){
+			console.log("포커스가 나갔다!");
+			
+			var userPwd1 = document.getElementById("userPwd1").value;
+			var userPwd2 = document.getElementById("userPwd2").value;
+			var equalsPwd = document.getElementById("equalsPwd");
+			
+			if(userPwd2 == "" || userPwd2.length == 0){
+				equalsPwd.innerHTML = "";
+			} else if(userPwd2 != userPwd1){
+				equalsPwd.style.color = "red";
+				equalsPwd.innerHTML = "비밀번호가 일치하지 않습니다.";
+			} else {
+				equalsPwd.style.color = "green";
+				equalsPwd.innerHTML = "비밀번호가 일치합니다.";
+			}
+		}
+		
+		function enroll(){
+			
+			var userId = document.getElementById("userId").value;
+			var userPwd1 = document.getElementById("userPwd1").value;
+			var userPwd2 = document.getElementById("userPwd2").value;
+			var name = document.getElementById("name").value;
+			
+			if(userId == "" || userId.length == 0){
+				alert("아이디를 입력해주세요.");
+				document.getElementById("userId").focus();
+			} else if(userPwd1 == "" || userPwd1.length == 0){
+				alert("비밀번호를 입력해주세요.");
+				document.getElementById("userPwd1").focus();
+			} else if(userPwd2 == "" || userPwd2.length == 0){
+				alert("비밀번호 확인을 입력해주세요.");
+				document.getElementById("userPwd2").focus();
+			} else if(name == "" || name.length == 0){
+				alert("이름을 입력해주세요.");
+				document.getElementById("name").focus();
+			} else if(userId == "user01"){
+				alert("사용할 수 없는 아이디입니다.");
+				document.getElementById("userId").value = "";
+				document.getElementById("userId").focus();
+			} else if(userPwd1 != userPwd2){
+				alert("비밀번호가 일치하지 않습니다.");
+				document.getElementById("userPwd2").value = "";
+				document.getElementById("userPwd2").focus();
+			} else{
+				alert(name + "님, 회원가입이 성공적으로 완료되었습니다^^");
+				console.log(userId);
+				document.getElementById("userId").value = "";
+				document.getElementById("userPwd1").value = "";
+				document.getElementById("userPwd2").value = "";
+				document.getElementById("name").value = "";
+				document.getElementById("existId").innerHTML = "";
+				document.getElementById("equalsPwd").innerHTML = "";
+			}
+		}
+	</script>
+	
+	
+	
+	<hr>
+	<hr>
+	
+	
+	
+	<h1>Practice3-2</h1>
+	<!-- 
+		onkeypress, onkeydown, onkeyup
+		https://ggmouse.tistory.com/179
+		https://simplesolace.tistory.com/entry/자바스크립트예제-아이디-중복확인-예제-문자열-비교
+	 -->
+	<fieldset>
+		<legend>회원가입</legend>	
+		아이디 : <input type="text" id="userId2" name="userId2" onkeyup="validate2(this);">
+		<span id="existId2"></span>
+		<br><br>
+		비밀번호 : <input type="password" id="userPwd12" name="userPwd12">
+		<br><br>
+		비밀번호 확인 : <input type="password" id="userPwd22" name="userPwd22" onblur="focusOut2(this);">
+		<span id="equalsPwd2"></span>
+		<br><br>
+		이름 : <input type="text" id="name2" name="name2">
+		<br><br>
+		<button onclick="enroll2();">회원가입</button>
+	</fieldset>
+	
+	<script>
+		function validate2(id){
+			console.log("눌렷다?");
+			var userId = id.value;
+			var existId = document.getElementById("existId2");
+			
+			if(userId == "" || userId.length == 0){
+				existId.innerHTML = "";
+			} else if(userId == "user01"){
+				existId.style.color = "red";
+				existId.innerHTML = "이미 존재하는 아이디입니다.";
+			} else {
+				existId.style.color = "green";
+				existId.innerHTML = "사용가능한 아이디입니다.";
+			}
+		}
+		
+		function focusOut2(pwd){
+			console.log("포커스가 나갔다!");
+			
+			var userPwd1 = document.getElementById("userPwd12").value;
+			var userPwd2 = pwd.value;
+			var equalsPwd = document.getElementById("equalsPwd2");
+			
+			if(userPwd2 == "" || userPwd2.length == 0){
+				equalsPwd.innerHTML = "";
+			} else if(userPwd2 != userPwd1){
+				equalsPwd.style.color = "red";
+				equalsPwd.innerHTML = "비밀번호가 일치하지 않습니다.";
+			} else {
+				equalsPwd.style.color = "green";
+				equalsPwd.innerHTML = "비밀번호가 일치합니다.";
+			}
+		}
+		
+		function enroll2(){
+			
+			var userId = document.getElementById("userId2").value;
+			var userPwd1 = document.getElementById("userPwd12").value;
+			var userPwd2 = document.getElementById("userPwd22").value;
+			var name = document.getElementById("name2").value;
+			
+			if(userId == "" || userId.length == 0){
+				alert("아이디를 입력해주세요.");
+				document.getElementById("userId2").focus();
+			} else if(userPwd1 == "" || userPwd1.length == 0){
+				alert("비밀번호를 입력해주세요.");
+				document.getElementById("userPwd12").focus();
+			} else if(userPwd2 == "" || userPwd2.length == 0){
+				alert("비밀번호 확인을 입력해주세요.");
+				document.getElementById("userPwd22").focus();
+			} else if(name == "" || name.length == 0){
+				alert("이름을 입력해주세요.");
+				document.getElementById("name2").focus();
+			} else if(userId == "user01"){
+				alert("사용할 수 없는 아이디입니다.");
+				document.getElementById("userId2").value = "";
+				document.getElementById("userId2").focus();
+			} else if(userPwd1 != userPwd2){
+				alert("비밀번호가 일치하지 않습니다.");
+				document.getElementById("userPwd22").value = "";
+				document.getElementById("userPwd22").focus();
+			} else{
+				alert(name + "님, 회원가입이 성공적으로 완료되었습니다^^");
+				console.log(userId);
+				document.getElementById("userId2").value = "";
+				document.getElementById("userPwd12").value = "";
+				document.getElementById("userPwd22").value = "";
+				document.getElementById("name2").value = "";
+				document.getElementById("existId2").innerHTML = "";
+				document.getElementById("equalsPwd2").innerHTML = "";
+			}
+		}
+	</script>
+	
+</body>
+</html>

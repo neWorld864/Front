@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>객체</h1>
+	
+	<h2>객체 선언 및 호출</h2>
+	<p>
+		중괄호{}를 사용하여 객체를 생성하고 속성에는 모든 자료형이 올 수 있음<br>
+		객체는 키 값을 사용하여 속성 식별
+	</p>
+	<button onclick="test1();">실행확인</button>
+	<script>
+		function test1() {
+			var product = {
+					pName: 'Dry Mango',
+					type: 'pickle',
+					ingredient: ['mango', 'sugar'],
+					origin: 'Philippines'
+			};
+			
+			console.log(product); /* ingredient: (2) ["mango", "sugar"]
+									 origin: "Philippines"
+									 pName: "Dry Mango"
+									 type: "pickle" */ // 순서 무작위
+		 
+			// [] or .
+			console.log(product['pName']); // Dry Mango
+			console.log(product['type']); // pickle
+			console.log(product['ingredient']); /* ["mango", "sugar"]
+													0: "mango"
+													1: "sugar" 
+													length: 2 */
+			console.log(product['ingredient'][0]); // mango
+			console.log(product['ingredient'][1]); // sugar
+			console.log(product['origin']); // Philippines
+			
+			console.log(product.pName);
+			console.log(product.type);
+			console.log(product.ingredient);
+			console.log(product.ingredient[0]);
+			console.log(product.ingredient[1]);
+			console.log(product.origin);
+		}
+	</script>
+	
+	<h3>객체의 키 식별자 테스트</h3>
+	<p>
+		객체의 키는 모든 문자열 사용 가능<br>
+		식별자로 사용할 수 없는 단어를 키로 사용할 경우, 무조건 대괄호를 사용해야 객체의 요소에 접근 가능
+	</p>
+	<button onclick="test2();">실행확인</button>
+	<script>
+		function test2() {
+			var objTest = {
+					'hy$bye' : 'KH정보교육원',
+					'hi_hello' : 'G강의장',
+					'hi good' : '박신우'
+			}
+			
+			console.log(objTest); // {hy$bye: "KH정보교육원", hi_hello: "G강의장", hi good: "박신우"}
+			
+			console.log(objTest['hy$bye']);
+			console.log(objTest['hi_hello']);
+			console.log(objTest['hi good']);
+			
+			console.log(objTest.hi$bye);
+			console.log(objTest.hi_hello);
+//			console.log(objTest.hi good); // 에러
+		}
+	</script>
+	
+	<h3>객체의 메소드 속성</h3>
+	<p>객체의 속성 중 함수 자료형인 속성을 메소드라고 함</p>
+	<button onclick="test3();">실행확인</button>
+	<script>
+		function test3(){
+			var dog = {
+					name1: '해피',
+					name2: '하루',
+					eat: function(food){
+						alert(this.name1 + "와 " + this.name2 + "는 " + food + "를 먹는 중"); // this를 안 붙여주면 alert이 안 뜸(안에 있는 메소드 실행법)
+					}
+			}
+			
+			console.log(dog); /* {name1: "해피", name2: "하루", eat: ƒ}
+								eat: ƒ (food)
+								name1: "해피"
+								name2: "하루" */
+								
+			dog.eat('사료');
+		}
+	</script> <!-- ~210318 -->
+	
+	<h3>객체와 반복문</h3>
+	<p>객체의 속성을 살펴볼때는 단순 for문으로는 불가능하고 for in문을 사용해야 함</p>
+	<button onclick="test4();">실행확인</button>
+	<script>
+		function test4(){
+			var movie = {
+					title: '미나리',
+					releaseDate: '2021-03-03',
+					director: '정이삭',
+					mainActor: ['스티븐 연', '한예리', '윤여정', '앨런 김', '노엘 조', '윌 패튼'],
+					screening: true
+			};
+			
+			console.log(movie); // {title: "미나리", releaseDate: "2021-03-03", director: "정이삭", mainActor: Array(6), screening: true}
+			console.log(movie.length); // undefined
+			
+			for(var i in movie){
+				console.log(i); // 객체의 키 값들이 나옴 : title releaseDate director mainActor screening
+				console.log(i + " : " + movie[i]); // title : 미나리  / 키 값 : 내용
+			}
+		}
+	</script>
+	
+	<h2>객체 속성 추가 및 제거</h2>
+	<p>
+		처음 객체 생성 이후 속성을 추가하거나 제거하는 것을 '동적으로 속성을 추가한다/제거한다'라고 함'
+	</p>
+	<button onclick="test5();">실행확인</button>
+	<script>
+		function test5() {
+			var student = {}; // 비어있는 배열? 객체? 선언
+			console.log(student); // {}
+			
+			student.name = "박신우";
+			student.hobby = "TV보기";
+			student.strength = "프로그래밍";
+			student.dream = "돈 많은 백수";
+			
+			console.log(student); // {name: "박신우", hobby: "TV보기", strength: "프로그래밍", dream: "돈 많은 백수"}
+			
+			student.toString = function() { // student에 toString이라고 하는 메소드 추가함 그리고 toString에 익명함수라는 function을 넣음 / toString : 대표값 반환하는 목적
+				var str = "";
+				for(var key in this) { // 위의 값 하나하나 가져올 필요 없이 for문 돌리면 됨 : this로 넣음(student안에 존재하는 메소드므로 자기자신(student)를 가져오면 됨)
+					if(key != 'toString'){ // toString이 아니면 (필드라는 의미?)
+						str += key + " : " + this[key] + "<br>";
+					}
+				}
+				return str;
+			};
+			
+			console.log(student); // {name: "박신우", hobby: "TV보기", strength: "프로그래밍", dream: "돈 많은 백수", toString: ƒ} 필드만 나옴
+			console.log(student.toString()); // name : 박신우<br>hobby : TV보기<br>strength : 프로그래밍<br>dream : 돈 많은 백수<br>
+			
+			delete(student.hobby);
+			console.log(student); // {name: "박신우", strength: "프로그래밍", dream: "돈 많은 백수", toString: ƒ}
+			console.log(student.toString()); // name : 박신우<br>strength : 프로그래밍<br>dream : 돈 많은 백수<br>
+		}
+	</script>
+	
+	<h2>객체배열</h2>
+	<button onclick="test6();">실행확인</button>
+	<script>
+		function test6() {
+			var student0 = {name: '박신우', java: 90, oracle: 43, JDBC: 24, HTML5: 26, CSS3: 87, javascript: 12};
+			var student1 = {name: '남나눔', java: 42, oracle: 56, JDBC: 96, HTML5: 45, CSS3: 45, javascript: 34};
+			var student2 = {name: '문미미', java: 74, oracle: 22, JDBC: 24, HTML5: 14, CSS3: 73, javascript: 45};
+			var student3 = {name: '강건강', java: 94, oracle: 85, JDBC: 84, HTML5: 11, CSS3: 42, javascript: 56};
+			var student4 = {name: '박보배', java: 15, oracle: 94, JDBC: 97, HTML5: 74, CSS3: 13, javascript: 67};
+			var student5 = {name: '정재주', java: 64, oracle: 14, JDBC: 70, HTML5: 86, CSS3: 23, javascript: 78};
+			var student6 = {name: '송성실', java: 28, oracle: 57, JDBC: 46, HTML5: 84, CSS3: 63, javascript: 89};
+			var student7 = {name: '도대담', java: 69, oracle: 42, JDBC: 83, HTML5: 34, CSS3: 44, javascript: 90};
+			var student8 = {name: '윤예의', java: 14, oracle: 56, JDBC: 48, HTML5: 35, CSS3: 85, javascript: 23};
+			var student9 = {name: '류라라', java: 84, oracle: 24, JDBC: 21, HTML5: 74, CSS3: 67, javascript: 11};
+			
+			var students = [];
+			students.push(student0);
+			students.push(student1);
+			students.push(student2);
+			students.push(student3);
+			students.push(student4);
+			students.push(student5);
+			students.push(student6);
+			students.push(student7);
+			students.push(student8);
+			students.push(student9);
+			
+			console.log(students); // [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+			
+			for(var i in students){
+				students[i].getSum = function(){
+					return this.java + this.oracle + this.JDBC + this.HTML5 + this.CSS3 + this.javascript;
+				};
+				
+				students[i].getAvg = function(){
+					return this.getSum() / 6;
+				}
+			}
+			
+			for(var i in students) {
+				console.log("이름 : " + students[i].name 
+							+ ", 총점 : " + students[i].getSum()
+							+ ", 평균 : " + students[i].getAvg()); /* 이름 : 박신우, 총점 : 282, 평균 : 47
+																	이름 : 강건강, 총점 : 372, 평균 : 62 ... */
+			}
+		}
+	</script>
+
+</body>
+</html>

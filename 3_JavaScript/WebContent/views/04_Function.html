@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>함수</h1>
+	
+	<h2>함수 선언</h2>
+	<h3>선언적 함수</h3>
+	
+	<button onclick="test1();">실행확인</button>
+	<script>
+		function test1() {
+			alert('test1 함수 실행');
+		}
+	</script>
+	
+	<h3>익명 함수</h3>
+	<button onclick="test2();">실행확인</button>
+	<script>
+		var test2 = function(){ // function의 이름은 test2가 됨
+			alert('test2함수 실행');
+		}
+	</script>
+	
+	<h3>스스로 실행하는 함수</h3> <!-- 호출 따로 필요 없이 실행 -->
+	<div id="div" style="border: 2px solid red; min-height: 5px;"></div>
+	<script>
+		(function(){
+			document.getElementById('div').innerHTML = '자동으로 혼자 실행';
+		})();
+	</script>
+	
+	<h2>함수 전달인자와 매개변수</h2>
+	<h3>매개인자로 전달하기</h3>
+	<button id="btn1">실행확인</button>
+	<script>
+		document.getElementById('btn1').onclick = function(){
+			var msg = window.prompt('메시지를 입력하세요');
+			test4(msg); // 메시지를 입력받으면 그 메시지가 그대로 출력됨
+			
+			test4('안녕하세요', '반갑습니다'); // 안녕하세요만 출력되고 반갑습니다는 무시됨
+			
+			test4(); // undefined
+			
+		}; // 클릭했을 때 이 함수를 실행할거야
+		
+		function test4(value) {
+			alert(value);
+			console.log(arguments);
+		}
+	</script>
+	
+	<h3>매개인자로 스스로를 전달하기</h3>
+	<!-- <button onclick="test5('JavaScript');">JavaScript</button>
+	<button onclick="test5('jQuery');">jQuery</button> -->
+	<button onclick="test5(this);">JavaScript</button> <!-- this: 요소 자체를 나타냄 -->
+	<button onclick="test5(this);">jQuery</button>
+	<script>
+		function test5(subject) {
+			// JavaScript버튼을 누르면 '오늘 배울 내용은 JavaScript입니다' 알림창
+			// jQuery버튼을 누르면 '오늘 배울 내용은 jQuery입니다' 알림창
+//			alert('오늘 배울 내용은 ' + subject + '입니다');
+			
+			console.log(subject);
+			alert('오늘 배울 내용은 ' + subject.innerText + '입니다.');
+		}
+	</script>
+	
+	<h3>함수 리턴처리</h3>
+	<button onclick="test6();">실행확인</button>
+	<script>
+		function test6(){
+			var value = returnFunction(); // 함수를 변수 value에 담아서
+			alert(value); // value를 반환
+		}
+		
+		function returnFunction(){
+			return Math.floor(Math.random() * 100) + 1; // 랜덤 값 하나씩 나오도록
+		}
+	</script>
+	
+	
+	<h3>매개변수로 함수 전달</h3>
+	<button onclick="test7(calledFunc);">실행확인</button>
+	<script>
+		function test7(calledFunc){
+			calledFunc(prompt('가장 좋아하는 숫자를 적으세요'));
+		}
+		
+		function calledFunc(i){
+			alert(i + ' 숫자를 가장 좋아하시는군요!');
+		}
+	</script>
+	
+	<h3>익명함수 리턴</h3>
+	<input type="text" id="name">
+	<button onclick="test8()();">실행확인</button> <!-- 함수를 그대로 건네받아서 실행하기 때문에 ()를 두 번 써야한다. -->
+	<script>
+		function test8(){
+			var name = document.getElementById('name').value;
+			
+			return function(){
+				alert(name + '님, 반갑습니다.');
+			};
+		}
+	</script>
+	
+	<h2>내장함수</h2>
+	<h3>eval()</h3>
+	<p>문자열을 자바스크립트로 바꿔주는 코드</p>
+	계산식 : <input type="text" id="test1">
+	<button onclick="test9();">실행확인</button> <br>
+	
+	숫자1 : <input type="text" id="number1"><br>
+	숫자2 : <input type="text" id="number2">
+	<button onclick="test10();">실행확인</button>
+	
+	<script>
+		function test9(){
+			var value = document.getElementById('test1').value;
+			alert(eval(value)); // eval을 해줘야 계산을 할 수 있음, eval이 없으면 입력한 계산식이 그대로 출력됨
+		}
+		
+		function test10(){
+			var testEval = "";
+			
+			testEval += 'var num1 = Number(document.getElementById("number1").value);';
+			testEval += 'var num2 = Number(document.getElementById("number2").value);';
+			testEval += 'var sum = 0;'; // 다 스트링으로 만들어줌
+			testEval += 'sum = num1 + num2;';
+			testEval += 'alert(num1 + "숫자와 " + num2 + "숫자의 합은 " + sum + "입니다.");';
+			
+			eval(testEval); // eval이 아니고 alert이면 위에 testEval 다 고대로 출력됨. 꼭 eval을 해줘야 계산이 된다.
+		}
+	</script>
+	
+	
+	<h3>infinity와 NaN</h3> 
+	<button onclick="test11();">실행확인</button>
+	<script>
+		function test11() { 
+			<!-- 자바에서 얘네 둘은 에러 남 -->
+			var num1 = 10 / 0;
+			var num2 = 10 / 'a'; 
+			var num3 = -10 / 0;
+			
+			console.log(num1); // Infinity
+			console.log(typeof num1); // number
+			console.log(num2); // NaN
+			console.log(typeof num2); // number
+			console.log(num3); // -Infinity
+			console.log(typeof num3); // number
+			
+			
+			console.log(isFinite(num1)); // false 유한하냐고 물어본거임
+			console.log(num1 == Infinity); // true
+			console.log(isNaN(num2)); // true
+			console.log(num3 == -Infinity); // true
+		}
+	</script>
+
+</body>
+</html>

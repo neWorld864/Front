@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.number{width: 80px;}
+</style>
+</head>
+<body>
+	<h2>Practice2-1</h2>
+	<input type="number" id="num1" class="number">
+	<select>
+		<option value="+">+</option>
+		<option value="-">-</option>
+		<option value="*">*</option>
+		<option value="/">/</option>
+		<option value="%">%</option>
+	</select>
+	<input type="number" id="num2" class="number">
+	<button onclick="calculate();">=</button>
+	<input type="text" id="result" class="number" readonly>
+	<script type="text/javascript">
+		function calculate(){
+			var result = document.getElementById("result");
+			var num1 = Number(document.getElementById("num1").value);
+			var num2 = Number(document.getElementById("num2").value);
+			var options = document.getElementsByTagName("option");
+			
+			var op;
+			for(var i in options){
+				if(options[i].selected){
+					op = options[i].value;
+					break;
+				}
+			}
+			
+			var cal;
+			
+			switch(op) {
+			case '+': 
+				cal = num1 + num2;
+				break;
+			case '-':
+				cal = num1 - num2;
+				break;
+			case '*':
+				cal = num1 * num2;
+				break;
+			case '/':
+				cal = num1 / num2;
+				
+			case '%':
+				cal = num1 % num2;
+			}
+				
+			if(cal == "Infinity" || cal == "-Infinity" || isNaN(cal)) {
+				result.style.backgroundColor = "red";
+				result.style.color = "white";
+				result.value = "연산불가";
+			} else {
+				result.style.backgroundColor = "white";
+				result.style.color = "black";
+				result.value = cal;
+			}
+		}
+		
+		// Uncaught SyntaxError: Invalid left-hand side in assignment : = 하나만 써서 오류남
+	</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#field{width: 500px;}
+	#area{border: 1px solid black; min-height: 100px; width: 300px;}
+</style>
+</head>
+<body>
+	<form>
+		<fieldset id="field">
+			<legend>구매 정보</legend>
+			<ul>
+				<li>
+					<label>구매자 : </label>
+					<input type="text" id="name" placeholder="구매자의 이름을 입력하세요">
+				</li>
+				<li>
+					<label>상품명 : </label>
+					<input type="text" id="title" placeholder="구매 상품 명을 입력하세요">
+				</li>
+				<li>
+					<label>가격 : </label>
+					<input type="text" id="price" placeholder="구매 가격을 입력하세요">
+				</li>
+				<li>
+					<label>구매 수량 : </label>
+					<input type="number" id="number" min="10" max="100" step="10" placeholder="최소 10">
+				</li>
+				<li>
+					<label>납품 등급 : </label>
+					<input type="range" id="level" min="1" max="9" step="2" placeholder="구매자의 이름을 입력하세요">
+				</li>
+				<li>
+					<label>기타 사항 : </label>
+					<textarea id="etc" ></textarea>
+				</li>
+			</ul>
+		</fieldset>
+	</form>
+	
+	<br>
+	
+	<button onclick="result();">입력 값 출력하기</button><br><br>
+	<div id="area" class="result"></div>
+	<script>
+		function result(){
+			var iName = document.getElementById('name').value;
+			var iTitle = document.getElementById('title').value;
+			var iPrice = document.getElementById('price').value;
+			var iNumber = document.getElementById('number').value;
+			var iLevel = document.getElementById('level').value;
+			var iEtc = document.getElementById('etc').value;
+			
+			document.getElementById('area').innerHTML = "구매자 명 : " + iName + " 님" + "<br>" + 
+														"상품 명 : " + iTitle + "<br>" +
+														"가격 : " + iPrice + "만원" + "<br>" +
+														"구매 수량 : " + iNumber + "개" + "<br>" +
+														"납품등급 : " + iLevel + "등급" + "<br>" +
+														"기타사항 : " + iEtc + "<br>";
+			
+		}
+	</script>
+</body>
+</html>
